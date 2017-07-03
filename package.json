@@ -1,0 +1,36 @@
+{
+  "name": "woleet-backend-kit",
+  "version": "1.0.0",
+  "description": "Woleet signature backend kit",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main",
+    "test": "echo 'No test set yet'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/woleet/woleet-backend-kit.git"
+  },
+  "keywords": [
+    "bitcoin",
+    "timestamp",
+    "signature"
+  ],
+  "author": "Woleet ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/woleet/woleet-backend-kit/issues"
+  },
+  "homepage": "https://github.com/woleet/woleet-backend-kit#readme",
+  "devDependencies": {
+    "@types/express": "^4.0.36"
+  },
+  "dependencies": {
+    "bitcoinjs-lib": "^3.1.0",
+    "bitcoinjs-message": "^1.0.1",
+    "bs58": "latest",
+    "bs58check": "latest",
+    "express": "^4.15.3",
+    "http-typed-errors": "^1.0.1"
+  }
+}
