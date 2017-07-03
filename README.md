@@ -1,16 +1,16 @@
 ## Woleet backend kit
 
-##Prerequisites
+### Prerequisites
 
 - Docker is installed on your system. 
 - A web domain.
 - An ssl certificate (certificate and key) for your domain.
 
-##Installation
+### Installation
 
 Clone the project: git clone git@github.com:woleet/woleet-backend-kit.git` or download https://github.com/woleet/woleet-backend-kit/archive/master.zip and uncompress it.
 
-##First run
+### First run
 
 Simply run the "initialise.sh" script with the following parameters:
 - cert=<PATH_TO_CERTIFICATE> path to your certificate.
