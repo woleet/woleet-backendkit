@@ -13,6 +13,8 @@ const config = {
     WIF: env.restore || null,
     certPath: need('cert'),
     keyPath: need('key'),
+    forceRegenWIF: !!(env.forceRegenWIF || false),
+    forceRegenToken: !!(env.forceRegenToken || false),
     signaturePort: env.signaturePort
 };
 

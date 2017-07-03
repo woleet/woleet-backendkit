@@ -6,9 +6,13 @@ const ECPair = require('bitcoinjs-lib').ECPair;
 
 const config = require('./config');
 
+const genSecret = () => crypto.randomBytes(32).toString('base64');
+
+const DATA_FILE_PATH = path.join(__dirname, '../data');
+
 function restore() {
     try {
-        const read = fs.readFileSync(path.join(__dirname, '../data'), 'utf8').split(':');
+        const read = fs.readFileSync(DATA_FILE_PATH, 'utf8').split(':');
         return {wif: read[0], secret: read[1]};
     } catch (e) {
         return {}
@@ -16,8 +20,9 @@ function restore() {
 }
 
 function save({wif, secret}) {
+    console.log('save', wif, secret);
     try {
-        return fs.writeFileSync(path.join(__dirname, '../data'), [wif, secret].join(':'), 'utf8');
+        return fs.writeFileSync(DATA_FILE_PATH, [wif, secret].join(':'), 'utf8');
     } catch (e) {
         return {}
     }
@@ -26,11 +31,13 @@ function save({wif, secret}) {
 const restored = restore();
 const key = fs.readFileSync(config.keyPath, 'utf8');
 const cert = fs.readFileSync(config.certPath, 'utf8');
-const secret = restored.secret || crypto.randomBytes(32).toString('base64');
-const wif = config.WIF || restored.wif || null;
+const secret = config.forceRegenToken ? genSecret() : (restored.secret || genSecret());
+const wif = config.forceRegenWIF ? null : (config.WIF || restored.wif || null);
 const keyPair = wif ? ECPair.fromWIF(wif) : ECPair.makeRandom();
 
-if (!restored.secret || !restored.wif) save({secret, wif});
+const _wif = keyPair.toWIF();
+
+if (restored.secret !== secret || restored.wif !== _wif) save({secret, wif: _wif});
 
 console.log(`Token: ${secret}`);
 console.log(`Address: ${keyPair.getAddress()}`);

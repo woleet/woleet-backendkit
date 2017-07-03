@@ -5,7 +5,7 @@ const bitcoin = require('bitcoinjs-lib');
 const btcSign = require('bitcoinjs-message').sign;
 
 const errorHandler = require('http-typed-errors');
-const {BadRequestError, UnprocessableEntityError, UnauthorizedError} = errorHandler;
+const {BadRequestError, UnauthorizedError} = errorHandler;
 const config = require('./config');
 const store = require('./store');
 
@@ -44,7 +44,7 @@ module.exports = function (endpoints) {
 
             if (!pubKey) throw new BadRequestError("Needs 'pubKey' query parameter");
             if (!leftData) throw new BadRequestError("Needs 'leftData' query parameter");
-            if (pubKey !== publicKey) throw new UnprocessableEntityError("Unhandled pubKey");
+            if (pubKey !== publicKey) throw new BadRequestError("Unhandled pubKey");
 
             const rightData = crypto.randomBytes(32).toString('hex');
 
@@ -63,7 +63,7 @@ module.exports = function (endpoints) {
             if (!pubKey) throw new BadRequestError("Needs 'pubKey' query parameter");
             if (!hashToSign) throw new BadRequestError("Needs 'hashToSign' query parameter");
             if (!/^[a-f0-9]{64}$/.test(hashToSign)) throw new BadRequestError("Query parameter 'hashToSign' has to be an sha256 hash (in lowercase)");
-            if (pubKey !== publicKey) throw new UnprocessableEntityError("Unhandled pubKey");
+            if (pubKey !== publicKey) throw new BadRequestError("Unhandled pubKey");
             if (req.header('Authorization') !== `Bearer ${secret}`) throw new UnauthorizedError('Bad token');
 
             const signature = sign(hashToSign);
