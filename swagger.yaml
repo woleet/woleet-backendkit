@@ -1,0 +1,153 @@
+swagger: '2.0'
+host: localhost
+basePath: /
+info:
+  version: 1.0.0
+  title: Woleet signature backend kit
+  description: >
+    This server aims to provide an easy way to sign a hash and proving that you are the corresponding signee on demand by providing two endpoints:
+
+      `/identity` let **anyone** verify that you own the private key corresponding to your address.
+
+      `/signature` let **you** (and only you) sign a hash.
+
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+paths:
+  /signature:
+    get:
+      summary: Get hash signature
+      description: >
+        Allows the client to sign a hash:
+
+          A `hashToSign` paremeter provided by the client is signed (only if the server owns the private key corresponding to the `pubKey` parameter.
+
+          <br>
+
+          This endpoint is protected by an access token, provided on the server's initialzation.
+
+          <br>
+
+          Note that this endpoint may not be exposed on the same port as the `/identity` endpoint.
+      parameters:
+        - name: pubKey
+          in: query
+          required: true
+          type: string
+          description: Bitcoin base58 public key (address)
+        - name: hashToSign
+          in: query
+          required: true
+          type: string
+          description: Hash that is to be signed (a string formatted like [a-f0-9]{64})
+      security:
+        - Bearer: []
+      responses:
+        '200':
+          description: The signature of hashToSign is returned
+          schema:
+            $ref: '#/definitions/SignatureOUT'
+        '400':
+          description: Missing or invalid query parameter
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Missing or bad token
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: /signature endpoint is not reachable on this port
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Unexpected server error
+          schema:
+            $ref: '#/definitions/Error'
+  /identity:
+    get:
+      summary: Get identity
+      description: >
+        Proves an identity ownership by signing random data:
+
+          the concatenation of a `leftData` paremeter provided by the client and a `rightData` paremeter provided by the server
+          is signed; if this signature matches the pubKey, then the server owns the corresponding private key.
+      parameters:
+        - name: pubKey
+          in: query
+          required: true
+          type: string
+          description: Bitcoin base58 public key (address)
+        - name: leftData
+          in: query
+          required: true
+          type: string
+          description: Left part of the randomly signed message
+      responses:
+        '200':
+          description: The signature of (leftData + rightData) is returned
+          schema:
+            $ref: '#/definitions/IdentityOUT'
+        '400':
+          description: Missing or invalid query parameter
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: /identity endpoint is not reachable on this port
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Unexpected server error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    type: object
+    properties:
+      error:
+        type: object
+        properties:
+          statusCode:
+            type: integer
+            description: the statusCode matches the returned http status code
+          message:
+            type: string
+          type:
+            type: string
+            enum:
+              - BadRequestError
+              - UnauthorizedError
+              - NotFoundError
+              - InternalServerError
+  SignatureOUT:
+    type: object
+    properties:
+      pubKey:
+        type: string
+        description: Bitcoin base58 public key used to sign (same as the pubKey parameter)
+      signedHash:
+        type: string
+        description: Same as hashToSign
+      signature:
+        type: string
+        description: Right part used to sign
+      identityURL:
+        type: string
+        description: Current server reference for signature validation
+  IdentityOUT:
+    type: object
+    properties:
+      rightData:
+        type: string
+        description: The signature (base 64) of the concatenation of leftData and rightData
+      signature:
+        type: string
+        description: Right part used to sign the random message

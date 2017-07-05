@@ -1,5 +1,11 @@
 ## Woleet backend kit
 
+This server aims to provide an easy way to sign a hash and proving that you are the corresponding signee on demand by providing two endpoints:
+    
+`/identity` let **anyone** verify that you own the private key corresponding to your address. 
+      
+`/signature` let **you** (and only you) sign a hash.
+
 ### Prerequisites
 
 - Docker is installed on your system. 
@@ -8,7 +14,7 @@
 
 ### Installation
 
-Clone the project: git clone git@github.com:woleet/woleet-backend-kit.git` or download https://github.com/woleet/woleet-backend-kit/archive/master.zip and uncompress it.
+Clone the project: git clone git@github.com:woleet/woleet-backendkit.git` or download https://github.com/woleet/woleet-backendkit/archive/master.zip and uncompress it.
 
 ### First run
 
