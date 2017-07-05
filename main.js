@@ -7,7 +7,7 @@ const appFactory = require('./app');
 const key = store.getKey();
 const cert = store.getCert();
 
-const DEFAULT_PORT = 443;
+const DEFAULT_PORT = 4443;
 const SIGNATURE_PORT = parseInt(config.signaturePort);
 
 if (config.signaturePort) {

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const ECPair = require('bitcoinjs-lib').ECPair;
+const PrivateKey = require('bitcore-lib').PrivateKey;
 
 const config = require('./config');
 
@@ -33,19 +33,19 @@ const key = fs.readFileSync(config.keyPath, 'utf8');
 const cert = fs.readFileSync(config.certPath, 'utf8');
 const secret = config.forceRegenToken ? genSecret() : (restored.secret || genSecret());
 const wif = config.forceRegenWIF ? null : (config.WIF || restored.wif || null);
-const keyPair = wif ? ECPair.fromWIF(wif) : ECPair.makeRandom();
+const privateKey = wif ? PrivateKey.fromWIF(wif) : PrivateKey.fromRandom();
 
-const _wif = keyPair.toWIF();
+const _wif = privateKey.toWIF();
 
 if (restored.secret !== secret || restored.wif !== _wif) save({secret, wif: _wif});
 
 console.log(`Token: ${secret}`);
-console.log(`Address: ${keyPair.getAddress()}`);
-console.log(`WIF: ${keyPair.toWIF()}`);
+console.log(`Address: ${privateKey.toAddress()}`);
+console.log(`WIF: ${privateKey.toWIF()}`);
 
 module.exports = {
     getKey: () => key,
     getCert: () => cert,
     getSecret: () => secret,
-    getKeyPair: () => keyPair,
+    getPrivateKey: () => privateKey,
 };

@@ -1,27 +1,23 @@
 const crypto = require('crypto');
 
 const express = require('express');
-const bitcoin = require('bitcoinjs-lib');
-const btcSign = require('bitcoinjs-message').sign;
+const Message = require('bitcore-message');
 
 const errorHandler = require('http-typed-errors');
 const {BadRequestError, UnauthorizedError} = errorHandler;
 const config = require('./config');
 const store = require('./store');
 
-const prefix = bitcoin.networks.bitcoin.messagePrefix;
 const secret = store.getSecret();
-/** @type ECPair */
-const keyPair = store.getKeyPair();
-const privateKeyBuffer = keyPair.d.toBuffer(32);
-const privateKeyCompressed = keyPair.compressed;
-const publicKey = keyPair.getAddress();
+/** @type PrivateKey */
+const privateKey = store.getPrivateKey();
+const publicKey = privateKey.toAddress().toString();
 
 /**
  * @param {string} message
  * @returns string
  */
-const sign = (message) => btcSign(message, prefix, privateKeyBuffer, privateKeyCompressed).toString('base64');
+const sign = (message) => (new Message(message)).sign(privateKey);
 
 module.exports = function (endpoints) {
 

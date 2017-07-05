@@ -26,8 +26,8 @@
     "@types/express": "^4.0.36"
   },
   "dependencies": {
-    "bitcoinjs-lib": "^3.1.0",
-    "bitcoinjs-message": "^1.0.1",
+    "bitcore-lib": "^0.13.7",
+    "bitcore-message": "^1.0.4",
     "bs58": "latest",
     "bs58check": "latest",
     "express": "^4.15.3",

@@ -41,8 +41,8 @@ done
 
 if [ ! -z ${SGP} ];
     then
-        SGP_BINDING="-p ${SGP}:553";
-        SGP_PARAM="-e signaturePort=553";
+        SGP_BINDING="-p ${SGP}:5443";
+        SGP_PARAM="-e signaturePort=5443";
 fi
 
 # if --regen-wif option is set we do not offer to manually set the private key
@@ -63,7 +63,7 @@ fi
 
 #echo run -p 443:443 ${SGP_BINDING} ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} -e key=${VOLUME}/key -v ${KEY}:${VOLUME}/key -e cert=${VOLUME}/cert -v ${CRT}:${VOLUME}/cert -e identityURL=${URL} --rm -d woleet-backend-kit
 
-docker run -p 443:443 ${SGP_BINDING} ${SGP_PARAM}   \
+docker run -p 443:4443 ${SGP_BINDING} ${SGP_PARAM}   \
     ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM}   \
     -e key=${VOLUME}/key -v ${KEY}:${VOLUME}/key    \
     -e cert=${VOLUME}/cert -v ${CRT}:${VOLUME}/cert \
