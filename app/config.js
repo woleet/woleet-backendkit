@@ -10,7 +10,7 @@ function need(name) {
 
 const config = {
     identityURL: need('identityURL'),
-    WIF: env.restore || null,
+    WIF: env.restoreWIF || null,
     certPath: need('cert'),
     keyPath: need('key'),
     forceRegenWIF: !!(env.forceRegenWIF || false),

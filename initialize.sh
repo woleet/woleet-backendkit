@@ -57,7 +57,7 @@ if [ ${#WIF_RESTORATION_PARAM} -eq 0 ]; then
     if [ ! -z ${RESTORE} ]; then
         echo '  Enter your WIF key:'
         read -r WIF_RESTORATION
-        WIF_RESTORATION_PARAM="-e restore=$WIF_RESTORATION"
+        WIF_RESTORATION_PARAM="-e restoreWIF=$WIF_RESTORATION"
     fi
 fi
 
