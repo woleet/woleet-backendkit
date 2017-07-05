@@ -118,8 +118,25 @@ definitions:
           statusCode:
             type: integer
             description: the statusCode matches the returned http status code
+            enum:
+              - 400
+              - 401
+              - 404
+              - 500
+              - 200
           message:
             type: string
+            enum:
+              - Bad Request
+              - Unauthorized
+              - Not Found
+              - Internal Server Error
+              - Needs 'pubKey' query parameter
+              - Needs 'leftData' query parameter
+              - Needs 'hashToSign' query parameter
+              - Query parameter 'hashToSign' has to be an sha256 hash (in lowercase)
+              - Unhandled pubKey
+              - Bad token
           type:
             type: string
             enum:
