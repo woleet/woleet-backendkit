@@ -2,7 +2,7 @@ const https = require('https');
 
 const store = require('./app/store');
 const config = require('./app/config');
-const appFactory = require('./app');
+const appFactory = require('./app')(config, store);
 
 const key = store.getKey();
 const cert = store.getCert();
