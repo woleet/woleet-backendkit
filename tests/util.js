@@ -29,4 +29,9 @@ function validateSignature(message, address, signature) {
     }
 }
 
-module.exports = {validateSignature, validateIdentity};
+
+const isHex = (str) => /^[a-f0-9]+$/.test(str);
+
+const isBase64 = (str) => Buffer.from(str, 'base64').toString('base64') === str;
+
+module.exports = {validateSignature, validateIdentity, isHex, isBase64};

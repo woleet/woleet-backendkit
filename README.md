@@ -25,3 +25,7 @@ Simply run the "initialise.sh" script with the following parameters:
 - signaturePort=<SIGNATURE_PORT> (optional), useful if you want to expose the "/signature" endpoint on an other port.
 
 This script is interactive and will display your private key and your access token to access the "/signature" endpoint.
+
+### Endpoints description:
+
+Detailed description of the API is described in the swagged.yaml file contained in this repository.

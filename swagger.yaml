@@ -41,7 +41,7 @@ paths:
       parameters:
         - name: pubKey
           in: query
-          required: true
+          required: false
           type: string
           description: Bitcoin base58 public key (address)
         - name: hashToSign
@@ -149,7 +149,7 @@ definitions:
     properties:
       pubKey:
         type: string
-        description: Bitcoin base58 public key used to sign (same as the pubKey parameter)
+        description: Bitcoin base58 public key used to sign (same as the pubKey parameter, if provided)
       signedHash:
         type: string
         description: Same as hashToSign

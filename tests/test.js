@@ -2,12 +2,11 @@ const request = require('supertest');
 const store = require('./store');
 const config = require('./config');
 const assert = require("assert");
-const {validateSignature, validateIdentity} = require('./util');
+const {validateSignature, validateIdentity, isHex, isBase64} = require('./util');
 
 const appFactory = require('../app')(config, store);
 
-const isHex = (str) => /^[a-f0-9]+$/.test(str);
-const isBase64 = (str) => Buffer.from(str, 'base64').toString('base64') === str;
+const DEFAULT_PUBKEY = '1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN';
 
 describe('Availability tests', function () {
     const identityApp = appFactory(['identity']);
@@ -40,7 +39,7 @@ describe('Identity tests', function () {
 
     it('signature should be valid', function (done) {
         const query = {
-            pubKey: '1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN',
+            pubKey: DEFAULT_PUBKEY,
             leftData: '5qse4648e536rse5bg9487sef684sz'
         };
 
@@ -92,7 +91,7 @@ describe('Signature tests', function () {
 
     it('signature should return UnauthorizedError with bad token', function (done) {
         const query = {
-            pubKey: '1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN',
+            pubKey: DEFAULT_PUBKEY,
             hashToSign: '2224fa760fe5b392a8de47b3e889b10446e9cb99cce09f8849c9a8f29186f303'
         };
 
@@ -102,7 +101,7 @@ describe('Signature tests', function () {
 
     it('signature should be valid with valid data', function (done) {
         const query = {
-            pubKey: '1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN',
+            pubKey: DEFAULT_PUBKEY,
             hashToSign: '2224fa760fe5b392a8de47b3e889b10446e9cb99cce09f8849c9a8f29186f303'
         };
 
@@ -128,7 +127,7 @@ describe('Signature tests', function () {
 
     it('signature should return BadRequestError with invalid hashToSign (1) (i.e.: non-lowercase sha256)', function (done) {
         const query = {
-            pubKey: '1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN',
+            pubKey: DEFAULT_PUBKEY,
             hashToSign: 'hello world'
         };
 
@@ -137,7 +136,7 @@ describe('Signature tests', function () {
 
     it('signature should return BadRequestError with invalid hashToSign (2)', function (done) {
         const query = {
-            pubKey: '1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN',
+            pubKey: DEFAULT_PUBKEY,
             hashToSign: '2224fa760fe5B392a8de47b3e889b10446e9cb99cce09f8849c9a8f29186f303'
         };
 
@@ -146,18 +145,25 @@ describe('Signature tests', function () {
 
     it('signature should return BadRequestError with missing hashToSign', function (done) {
         const query = {
-            pubKey: '1HZwkjkeaoZfTSaJxDw6aKkxp45agDiEzN'
+            pubKey: DEFAULT_PUBKEY
         };
 
         request(app).get('/signature').set('Authorization', auth).query(query).expect(400).end(done)
     });
 
-    it('signature should return BadRequestError with missing pubKey', function (done) {
+    it('signature should sign with default pubKey if missing pubKey parameter', function (done) {
         const query = {
             hashToSign: '2224fa760fe5b392a8de47b3e889b10446e9cb99cce09f8849c9a8f29186f303'
         };
 
-        request(app).get('/signature').set('Authorization', auth).query(query).expect(400).end(done)
+        request(app).get('/signature').set('Authorization', auth).query(query)
+            .expect(200)
+            .expect((res) => {
+                const {pubKey} = res.body;
+                assert(pubKey);
+                assert.equal(pubKey, DEFAULT_PUBKEY);
+            })
+            .end(done)
     });
 
     it('signature should return BadRequestError with unknown pubKey', function (done) {

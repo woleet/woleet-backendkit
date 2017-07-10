@@ -69,14 +69,13 @@ module.exports = function (config, store) {
                 const signedHash = hashToSign;
                 const identityURL = `https://${config.identityURL}/identity`;
 
-                if (!pubKey) throw new BadRequestError("Needs 'pubKey' query parameter");
                 if (!hashToSign) throw new BadRequestError("Needs 'hashToSign' query parameter");
                 if (!/^[a-f0-9]{64}$/.test(hashToSign)) throw new BadRequestError("Query parameter 'hashToSign' has to be an sha256 hash (in lowercase)");
-                if (pubKey !== publicKey) throw new BadRequestError("Unhandled pubKey");
+                if (pubKey && pubKey !== publicKey) throw new BadRequestError("Unhandled pubKey");
 
                 const signature = sign(hashToSign);
 
-                res.json({signature, pubKey, signedHash, identityURL})
+                res.json({signature, pubKey:publicKey, signedHash, identityURL})
 
             });
         }

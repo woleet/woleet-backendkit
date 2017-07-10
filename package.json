@@ -5,7 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "node main",
-    "test": "mocha tests/test"
+    "test": "mocha tests/test",
+    "tests": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && mocha tests --recursive",
+    "swagger-tests": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && mocha tests/swagger-generated --recursive"
   },
   "repository": {
     "type": "git",
@@ -27,7 +29,9 @@
     "bitcoinjs-message": "^1.0.1",
     "chai": "^4.0.2",
     "mocha": "^3.4.2",
-    "supertest": "^3.0.0"
+    "supertest": "^3.0.0",
+    "sinon": "1.17.3",
+    "expect.js": "~0.3.1"
   },
   "dependencies": {
     "bitcore-lib": "^0.13.7",
