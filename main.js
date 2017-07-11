@@ -7,8 +7,8 @@ const appFactory = require('./app')(config, store);
 const key = store.getKey();
 const cert = store.getCert();
 
-const DEFAULT_PORT = 4443;
-const SIGNATURE_PORT = parseInt(config.signaturePort);
+const DEFAULT_PORT = config.defaultPort;
+const SIGNATURE_PORT = config.signaturePort;
 
 if (config.signaturePort) {
     https.createServer({key, cert}, appFactory(['signature'])).listen(SIGNATURE_PORT);

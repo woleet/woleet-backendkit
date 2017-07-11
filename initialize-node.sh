@@ -1,21 +1,18 @@
 #!/usr/bin/env bash
 
-function get_docker_id()
-{
-echo $(docker ps | grep woleet-backend-kit | cut -d' ' -f1)
-}
+OUT_FILE=.output.log
+ERR_FILE=.errors.log
+PID_FILE=backendkit.pid
 
-RUNNING=$(get_docker_id)
+echo '' > ${OUT_FILE}
+echo '' > ${ERR_FILE}
 
-if [ ${#RUNNING} -gt 0 ];
-    then
-        echo "Docker is already running with this image, to stop it use: 'docker stop ${RUNNING}'";
-        exit;
+# Checking if running
+if [ -f "$HOME/.forever/pids/$PID_FILE" ]; then
+   PID=$(cat $HOME/.forever/pids/${PID_FILE})
+   echo "Backend kit is already running, to stop it use: 'forever stop ${PID}'";
+   exit;
 fi
-
-#docker build -t woleet-backend-kit .
-
-VOLUME=/usr/src/app/volume
 
 #Getting parameters
 while [ $# -gt 0 ]; do
@@ -39,9 +36,11 @@ while [ $# -gt 0 ]; do
   shift
 done
 
+# Installing dependencies
+npm i --silent
+
 if [ ! -z ${SGP} ];
     then
-        SGP_BINDING="-p ${SGP}:5443";
         SGP_PARAM="signaturePort=5443";
 fi
 
@@ -61,35 +60,37 @@ if [ ${#WIF_RESTORATION_PARAM} -eq 0 ]; then
     fi
 fi
 
-echo -e "run -p 443:4443 ${SGP_BINDING} \n\
--it ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${VOLUME}/key cert=${VOLUME}/cert identityURL=${URL} \n\
--v ${KEY}:${VOLUME}/key \n\
--v ${CRT}:${VOLUME}/cert \n--rm -d woleet-backend-kit"
-docker run  \
-    --entrypoint /bin/node ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${VOLUME}/key cert=${VOLUME}/cert identityURL=${URL} \
-    -p 443:4443 ${SGP_BINDING} \
-    -v ${KEY}:${VOLUME}/key  \
-    -v ${CRT}:${VOLUME}/cert \
-    --rm -d woleet-backend-kit
+forever -o ${OUT_FILE} -e ${ERR_FILE} --pidFile ${PID_FILE} --minUptime 3000 --spinSleepTime 3000 start main.js ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${KEY} cert=${CRT} identityURL=${URL}
 
 #############################################################
-#                                                           #
 #  Since here, we are done, just showing keys to the user   #
-#                                                           #
 #############################################################
 
-DOCKER_ID=$(get_docker_id)
-wif=''
-token=''
+wif=""
+token=""
+address=""
 
-while [ "$wif" == "" ] || [ "$token" == "" ]; do
-    sleep 1s
-    wif=$( docker logs ${DOCKER_ID} 2>&1 | grep "WIF:" | cut  -d' ' -f2)
-    token=$( docker logs ${DOCKER_ID} 2>&1 | grep "Token:" | cut  -d' ' -f2)
-    address=$( docker logs ${DOCKER_ID} 2>&1 | grep "Address:" | cut  -d' ' -f2)
+function get_string()
+{
+cat ${OUT_FILE} 2>&1 | grep -a --text $1 | tail -1 | cut  -d' ' -f2
+}
+
+# Getting generated/restored keys
+while true
+do
+   wif=$( get_string "WIF:" )
+   token=$( get_string "Token:" )
+   address=$( get_string "Address:" )
+   echo '' > ${OUT_FILE}
+   if [ "$wif" == "" ] || [ "$token" == "" ]
+   then
+        sleep 1s
+    else
+        break
+   fi
 done
 
-#
+# if RESTORE is set, we do not tell the user to backup it
 if [ -z ${RESTORE} ]; then
     echo 'A new key pair has been generated, please carefully write it down:'
     read -p "${wif} (Press any key to continue)" -n1 -s
@@ -115,5 +116,9 @@ read -p "${token} (Press any key to continue)" -n1 -s
 echo -en "\r\033[K"
 
 echo "All set! Your address (public key) is ${address}"
+
+wif=""
+token=""
+address=""
 
 #./initialize.sh identityURL=localhost key=~/Documents/WOLEET/woleet-ci/local/ssl/localhost.key cert=~/Documents/WOLEET/woleet-ci/local/ssl/localhost.crt

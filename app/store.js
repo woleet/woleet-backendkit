@@ -8,7 +8,7 @@ const config = require('./config');
 
 const genSecret = () => crypto.randomBytes(32).toString('base64');
 
-const DATA_FILE_PATH = path.join(__dirname, '../data');
+const DATA_FILE_PATH = path.join(__dirname, '../.data');
 
 function restore() {
     try {
@@ -31,8 +31,8 @@ function save({wif, secret}) {
 const restored = restore();
 const key = fs.readFileSync(config.keyPath, 'utf8');
 const cert = fs.readFileSync(config.certPath, 'utf8');
-const secret = config.forceRegenToken ? genSecret() : (restored.secret || genSecret());
-const wif = config.forceRegenWIF ? null : (config.WIF || restored.wif || null);
+const secret = config.forceRegenToken ? genSecret() : (config.restoreToken || restored.secret || genSecret());
+const wif = config.forceRegenWIF ? null : (config.restoreWIF || restored.wif || null);
 const privateKey = wif ? PrivateKey.fromWIF(wif) : PrivateKey.fromRandom();
 
 const _wif = privateKey.toWIF();

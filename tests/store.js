@@ -2,8 +2,8 @@ const PrivateKey = require('bitcore-lib').PrivateKey;
 
 const config = require('./config');
 
-const secret = '123456';
-const wif = config.WIF;
+const secret = config.restoreToken;
+const wif = config.restoreWIF;
 const privateKey = PrivateKey.fromWIF(wif);
 
 console.log(`Token: ${secret}`);
