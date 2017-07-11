@@ -13,4 +13,5 @@ COPY . /usr/src/app
 RUN npm test
 
 EXPOSE 443 553
-CMD [ "npm", "start" ]
+
+ENTRYPOINT ["node", "main"]

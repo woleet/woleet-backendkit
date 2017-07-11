@@ -13,7 +13,7 @@ if [ ${#RUNNING} -gt 0 ];
         exit;
 fi
 
-#docker build -t woleet-backend-kit .
+docker build -t woleet-backend-kit .
 
 VOLUME=/usr/src/app/volume
 
@@ -61,35 +61,41 @@ if [ ${#WIF_RESTORATION_PARAM} -eq 0 ]; then
     fi
 fi
 
-echo -e "run -p 443:4443 ${SGP_BINDING} \n\
--it ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${VOLUME}/key cert=${VOLUME}/cert identityURL=${URL} \n\
--v ${KEY}:${VOLUME}/key \n\
--v ${CRT}:${VOLUME}/cert \n--rm -d woleet-backend-kit"
 docker run  \
-    --entrypoint /bin/node ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${VOLUME}/key cert=${VOLUME}/cert identityURL=${URL} \
     -p 443:4443 ${SGP_BINDING} \
     -v ${KEY}:${VOLUME}/key  \
     -v ${CRT}:${VOLUME}/cert \
-    --rm -d woleet-backend-kit
+    --rm -d woleet-backend-kit ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${VOLUME}/key cert=${VOLUME}/cert identityURL=${URL}
 
 #############################################################
-#                                                           #
 #  Since here, we are done, just showing keys to the user   #
-#                                                           #
 #############################################################
 
 DOCKER_ID=$(get_docker_id)
-wif=''
-token=''
+wif=""
+token=""
+address=""
 
-while [ "$wif" == "" ] || [ "$token" == "" ]; do
-    sleep 1s
-    wif=$( docker logs ${DOCKER_ID} 2>&1 | grep "WIF:" | cut  -d' ' -f2)
-    token=$( docker logs ${DOCKER_ID} 2>&1 | grep "Token:" | cut  -d' ' -f2)
-    address=$( docker logs ${DOCKER_ID} 2>&1 | grep "Address:" | cut  -d' ' -f2)
+function get_string()
+{
+docker logs ${DOCKER_ID} 2>&1 | grep -a --text $1 | tail -1 | cut  -d' ' -f2
+}
+
+# Getting generated/restored keys
+while true
+do
+   wif=$( get_string "WIF:" )
+   token=$( get_string "Token:" )
+   address=$( get_string "Address:" )
+   if [ "$wif" == "" ] || [ "$token" == "" ]
+   then
+        sleep 1s
+    else
+        break
+   fi
 done
 
-#
+# if RESTORE is set, we do not tell the user to backup it
 if [ -z ${RESTORE} ]; then
     echo 'A new key pair has been generated, please carefully write it down:'
     read -p "${wif} (Press any key to continue)" -n1 -s
@@ -116,4 +122,8 @@ echo -en "\r\033[K"
 
 echo "All set! Your address (public key) is ${address}"
 
-#./initialize.sh identityURL=localhost key=~/Documents/WOLEET/woleet-ci/local/ssl/localhost.key cert=~/Documents/WOLEET/woleet-ci/local/ssl/localhost.crt
+wif=""
+token=""
+address=""
+
+#./initialize-docker.sh identityURL=localhost key=~/Documents/WOLEET/woleet-ci/local/ssl/localhost.key cert=~/Documents/WOLEET/woleet-ci/local/ssl/localhost.crt
