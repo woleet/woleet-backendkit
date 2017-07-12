@@ -125,5 +125,3 @@ echo "All set! Your address (public key) is ${address}"
 wif=""
 token=""
 address=""
-
-#./initialize-docker.sh identityURL=localhost key=~/Documents/WOLEET/woleet-ci/local/ssl/localhost.key cert=~/Documents/WOLEET/woleet-ci/local/ssl/localhost.crt

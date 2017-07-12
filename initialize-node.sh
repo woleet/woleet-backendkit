@@ -120,5 +120,3 @@ echo "All set! Your address (public key) is ${address}"
 wif=""
 token=""
 address=""
-
-#./initialize.sh identityURL=localhost key=~/Documents/WOLEET/woleet-ci/local/ssl/localhost.key cert=~/Documents/WOLEET/woleet-ci/local/ssl/localhost.crt
