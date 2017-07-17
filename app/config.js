@@ -1,9 +1,7 @@
 const args = {};
 const getArg = (dst) => (key) => (val) => ((match) => match ? dst[key] = match[1] : null)(val.match(new RegExp(`^${key}=(.*)$`, 'i')));
 const keys = ['identityURL', 'cert', 'key', 'restoreWIF', 'restoreToken', 'signaturePort', 'defaultPort', 'forceRegenWIF', 'forceRegenToken'];
-const tests = keys.map(k => getArg(args)(k));
-
-console.log(process.argv);
+const tests = keys.map(key => getArg(args)(key));
 
 process.argv.forEach((key) => tests.forEach(test => test(key)));
 
@@ -23,7 +21,7 @@ const config = {
     keyPath: need('key'),
     forceRegenWIF: !!(args.forceRegenWIF || false),
     forceRegenToken: !!(args.forceRegenToken || false),
-    defaultPort: args.defaultPort && parseInt(args.defaultPort) || 4443,
+    defaultPort: args.defaultPort && parseInt(args.defaultPort) || 443,
     signaturePort: args.signaturePort && parseInt(args.signaturePort) || null
 };
 

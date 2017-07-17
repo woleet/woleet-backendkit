@@ -62,7 +62,7 @@ if [ ${#WIF_RESTORATION_PARAM} -eq 0 ]; then
 fi
 
 docker run  \
-    -p 443:4443 ${SGP_BINDING} \
+    -p 443:443 ${SGP_BINDING} \
     -v ${KEY}:${VOLUME}/key  \
     -v ${CRT}:${VOLUME}/cert \
     --rm -d woleet-backend-kit ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${VOLUME}/key cert=${VOLUME}/cert identityURL=${URL}

@@ -20,10 +20,10 @@ function restore() {
 }
 
 function save({wif, secret}) {
-    console.log('save', wif, secret);
     try {
         return fs.writeFileSync(DATA_FILE_PATH, [wif, secret].join(':'), 'utf8');
-    } catch (e) {
+    } catch (err) {
+        console.error(err);
         return {}
     }
 }
@@ -31,8 +31,8 @@ function save({wif, secret}) {
 const restored = restore();
 const key = fs.readFileSync(config.keyPath, 'utf8');
 const cert = fs.readFileSync(config.certPath, 'utf8');
-const secret = config.forceRegenToken ? genSecret() : (config.restoreToken || restored.secret || genSecret());
-const wif = config.forceRegenWIF ? null : (config.restoreWIF || restored.wif || null);
+const secret = (!config.forceRegenToken) && (config.restoreToken || restored.secret) || genSecret();
+const wif = (!config.forceRegenWIF) && (config.restoreWIF || restored.wif) || null;
 const privateKey = wif ? PrivateKey.fromWIF(wif) : PrivateKey.fromRandom();
 
 const _wif = privateKey.toWIF();

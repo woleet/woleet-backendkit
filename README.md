@@ -20,18 +20,57 @@ Clone the project: git clone git@github.com:woleet/woleet-backendkit.git` or dow
 
 ### First run with the helper script initialize-docker.sh or initialize-node.sh 
 
-Simply run the "initialise-[node|docker`].sh" script with the following parameters:
+Simply run the "initialise-[node|docker].sh" script with the following parameters:
 - cert=<PATH_TO_CERTIFICATE> path to your certificate.
 - key=<PATH_TO_CERTIFICATE_KEY> path to your certificate's key.
 - identityURL=<YOUR-DOMAIN> (in order to match with "https://<YOUR-DOMAIN>/identity").
 - signaturePort=<SIGNATURE_PORT> (optional), useful if you want to expose the "/signature" endpoint on an other port.
+- "--regen-token" (optional),force a new token generation.
+- "--regen-wif"(optional), force a new private key generation.
 
-This script is interactive and will display your private key and your access token to access the "/signature" endpoint.
+
+The helper script will:
+- Ask you if you want to restore a `private key` or generate a new one.
+- Display you the generated `private key`, `access token` and `address` (public key). 
+ You will have to write them down carefully.
+ 
+You will need the `access token` to use the "/signature" endpoint.
 
 Example:<br>
 `./initialize-docker.sh identityURL=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
 <br>or:<br>
 `./initialize-node.sh identityURL=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
+
+### Running the backend kit without the helper script:
+
+In addition to `cert`, `key`, `identityURL` and `signaturePort` (see above), running 
+the backend kit without the helper script allows you to set some extra parameters:
+ - restoreWIF=<bitcoin WIF private key> (optional) private key as Wallet Import Format (base 58); if not provided a random key is generated
+ - restoreToken=<TOKEN> (optional), if not provided a random token is generated.
+ - defaultPort=<IDENTITY_PORT> (optional, default: 443), expose the "/identity" endpoint on an specific port.
+ - "forceRegenWIF=1" (optional), force a new private key generation (if set: restoreWIF will be ignored).
+ - "forceRegenToken=1" (optional), force a new token generation (if set: restoreToken will be ignored).
+ 
+Example:
+```bash
+npm start identityURL=localhost \
+    key=~/ssl/selfsigned.key \
+    cert=~/ssl/selfsigned.crt \
+    forceRegenWIF=1 \
+    forceRegenToken=1 \
+    defaultPort=4443 \
+    signaturePort=5443
+```
+
+To run it as a daemon, you have to use `forever`, for example:
+```bash
+forever start main.js identityURL=localhost \
+    key=~/ssl/selfsigned.key \
+    cert=~/ssl/selfsigned.crt \
+    restoreWIF=${MY_PRIVATE_KEY}
+```
+ 
+Note that you **should not** use the restoreWIF/restoreToken options directly via the command line because of the command history. 
 
 ### Endpoints description:
 
