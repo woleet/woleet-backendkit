@@ -14,6 +14,8 @@ if [ -f "$HOME/.forever/pids/$PID_FILE" ]; then
    exit;
 fi
 
+DEFAULT_PORT=443
+
 #Getting parameters
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -25,6 +27,8 @@ while [ $# -gt 0 ]; do
       URL="${1#*=}";;
     signaturePort=*)
       SGP="${1#*=}";;
+    defaultPort=*)
+      DEFAULT_PORT="${1#*=}";;
     --regen-token)
       TOKEN_REGEN_PARAM="forceRegenToken=1";;
     --regen-wif)
@@ -60,7 +64,7 @@ if [ ${#WIF_RESTORATION_PARAM} -eq 0 ]; then
     fi
 fi
 
-forever -o ${OUT_FILE} -e ${ERR_FILE} --pidFile ${PID_FILE} --minUptime 3000 --spinSleepTime 3000 start main.js ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${KEY} cert=${CRT} identityURL=${URL}
+forever -o ${OUT_FILE} -e ${ERR_FILE} --pidFile ${PID_FILE} --minUptime 30000 --spinSleepTime 3000 start main.js ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${KEY} cert=${CRT} identityURL=${URL} defaultPort=${DEFAULT_PORT}
 
 #############################################################
 #  Since here, we are done, just showing keys to the user   #

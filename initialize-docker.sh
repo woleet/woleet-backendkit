@@ -15,6 +15,7 @@ fi
 
 docker build -t woleet-backend-kit .
 
+DEFAULT_PORT=443
 VOLUME=/usr/src/app/volume
 
 #Getting parameters
@@ -28,6 +29,8 @@ while [ $# -gt 0 ]; do
       URL="${1#*=}";;
     signaturePort=*)
       SGP="${1#*=}";;
+    defaultPort=*)
+      DEFAULT_PORT="${1#*=}";;
     --regen-token)
       TOKEN_REGEN_PARAM="forceRegenToken=1";;
     --regen-wif)
@@ -62,7 +65,7 @@ if [ ${#WIF_RESTORATION_PARAM} -eq 0 ]; then
 fi
 
 docker run  \
-    -p 443:443 ${SGP_BINDING} \
+    -p ${DEFAULT_PORT}:443 ${SGP_BINDING} \
     -v ${KEY}:${VOLUME}/key  \
     -v ${CRT}:${VOLUME}/cert \
     --rm -d woleet-backend-kit ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${VOLUME}/key cert=${VOLUME}/cert identityURL=${URL}

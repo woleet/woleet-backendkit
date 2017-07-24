@@ -25,6 +25,7 @@ Simply run the "initialise-[node|docker].sh" script with the following parameter
 - key=<PATH_TO_CERTIFICATE_KEY> path to your certificate's key.
 - identityURL=<YOUR-DOMAIN> (in order to match with "https://<YOUR-DOMAIN>/identity").
 - signaturePort=<SIGNATURE_PORT> (optional), useful if you want to expose the "/signature" endpoint on an other port.
+- defaultPort=<IDENTITY_PORT> (optional, default: 443), expose the "/identity" endpoint on an specific port.
 - "--regen-token" (optional),force a new token generation.
 - "--regen-wif"(optional), force a new private key generation.
 
@@ -47,7 +48,6 @@ In addition to `cert`, `key`, `identityURL` and `signaturePort` (see above), run
 the backend kit without the helper script allows you to set some extra parameters:
  - restoreWIF=<bitcoin WIF private key> (optional) private key as Wallet Import Format (base 58); if not provided a random key is generated
  - restoreToken=<TOKEN> (optional), if not provided a random token is generated.
- - defaultPort=<IDENTITY_PORT> (optional, default: 443), expose the "/identity" endpoint on an specific port.
  - "forceRegenWIF=1" (optional), force a new private key generation (if set: restoreWIF will be ignored).
  - "forceRegenToken=1" (optional), force a new token generation (if set: restoreToken will be ignored).
  
