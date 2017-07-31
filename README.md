@@ -6,6 +6,8 @@ This server aims to provide an easy way to sign a hash and proving that you are 
       
 `/signature` let **you** (and only you) sign a hash.
 
+`/documentation` exposes the swagger ui for the api (the "/signature" endpoint is not displayed if `signaturePort` is set).
+
 ### Prerequisites
 
 In order to run this server you will need:
@@ -23,7 +25,7 @@ Clone the project: git clone git@github.com:woleet/woleet-backendkit.git` or dow
 Simply run the "initialise-[node|docker].sh" script with the following parameters:
 - cert=<PATH_TO_CERTIFICATE> path to your certificate.
 - key=<PATH_TO_CERTIFICATE_KEY> path to your certificate's key.
-- identityURL=<YOUR-DOMAIN> (in order to match with "https://<YOUR-DOMAIN>/identity").
+- hostName=<YOUR-DOMAIN> (in order to match with "https://<YOUR-DOMAIN>/identity").
 - signaturePort=<SIGNATURE_PORT> (optional), useful if you want to expose the "/signature" endpoint on an other port.
 - defaultPort=<IDENTITY_PORT> (optional, default: 443), expose the "/identity" endpoint on an specific port.
 - "--regen-token" (optional),force a new token generation.
@@ -38,13 +40,13 @@ The helper script will:
 You will need the `access token` to use the "/signature" endpoint.
 
 Example:<br>
-`./initialize-docker.sh identityURL=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
+`./initialize-docker.sh hostName=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
 <br>or:<br>
-`./initialize-node.sh identityURL=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
+`./initialize-node.sh hostName=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
 
 ### Running the backend kit without the helper script:
 
-In addition to `cert`, `key`, `identityURL` and `signaturePort` (see above), running 
+In addition to `cert`, `key`, `hostName` and `signaturePort` (see above), running 
 the backend kit without the helper script allows you to set some extra parameters:
  - restoreWIF=<bitcoin WIF private key> (optional) private key as Wallet Import Format (base 58); if not provided a random key is generated
  - restoreToken=<TOKEN> (optional), if not provided a random token is generated.
@@ -53,7 +55,7 @@ the backend kit without the helper script allows you to set some extra parameter
  
 Example:
 ```bash
-npm start identityURL=localhost \
+npm start hostName=localhost \
     key=~/ssl/selfsigned.key \
     cert=~/ssl/selfsigned.crt \
     forceRegenWIF=1 \
@@ -64,7 +66,7 @@ npm start identityURL=localhost \
 
 To run it as a daemon, you have to use `forever`, for example:
 ```bash
-forever start main.js identityURL=localhost \
+forever start main.js hostName=localhost \
     key=~/ssl/selfsigned.key \
     cert=~/ssl/selfsigned.crt \
     restoreWIF=${MY_PRIVATE_KEY}

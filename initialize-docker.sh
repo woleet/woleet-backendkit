@@ -25,7 +25,7 @@ while [ $# -gt 0 ]; do
       KEY="${1#*=}";;
     cert=*)
       CRT="${1#*=}";;
-    identityURL=*)
+    hostName=*)
       URL="${1#*=}";;
     signaturePort=*)
       SGP="${1#*=}";;
@@ -68,7 +68,7 @@ docker run  \
     -p ${DEFAULT_PORT}:443 ${SGP_BINDING} \
     -v ${KEY}:${VOLUME}/key  \
     -v ${CRT}:${VOLUME}/cert \
-    --rm -d woleet-backend-kit ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${VOLUME}/key cert=${VOLUME}/cert identityURL=${URL}
+    --rm -d woleet-backend-kit ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${VOLUME}/key cert=${VOLUME}/cert hostName=${URL}
 
 #############################################################
 #  Since here, we are done, just showing keys to the user   #

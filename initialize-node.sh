@@ -23,7 +23,7 @@ while [ $# -gt 0 ]; do
       KEY="${1#*=}";;
     cert=*)
       CRT="${1#*=}";;
-    identityURL=*)
+    hostName=*)
       URL="${1#*=}";;
     signaturePort=*)
       SGP="${1#*=}";;
@@ -64,7 +64,7 @@ if [ ${#WIF_RESTORATION_PARAM} -eq 0 ]; then
     fi
 fi
 
-forever -o ${OUT_FILE} -e ${ERR_FILE} --pidFile ${PID_FILE} --minUptime 30000 --spinSleepTime 3000 start main.js ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${KEY} cert=${CRT} identityURL=${URL} defaultPort=${DEFAULT_PORT}
+forever -o ${OUT_FILE} -e ${ERR_FILE} --pidFile ${PID_FILE} --minUptime 30000 --spinSleepTime 3000 start main.js ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${KEY} cert=${CRT} hostName=${URL} defaultPort=${DEFAULT_PORT}
 
 #############################################################
 #  Since here, we are done, just showing keys to the user   #

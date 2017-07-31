@@ -46,7 +46,7 @@
          * @type {String}
          * @default https://localhost/
          */
-        this.basePath = 'https://localhost/'.replace(/\/+$/, '');
+        this.basePath = 'https://localhost:1234/'.replace(/\/+$/, '');
 
         /**
          * The authentication methods to be included for all API calls.

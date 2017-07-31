@@ -1,6 +1,6 @@
 const args = {};
 const getArg = (dst) => (key) => (val) => ((match) => match ? dst[key] = match[1] : null)(val.match(new RegExp(`^${key}=(.*)$`, 'i')));
-const keys = ['identityURL', 'cert', 'key', 'restoreWIF', 'restoreToken', 'signaturePort', 'defaultPort', 'forceRegenWIF', 'forceRegenToken'];
+const keys = ['hostName', 'cert', 'key', 'restoreWIF', 'restoreToken', 'signaturePort', 'defaultPort', 'forceRegenWIF', 'forceRegenToken'];
 const tests = keys.map(key => getArg(args)(key));
 
 process.argv.forEach((key) => tests.forEach(test => test(key)));
@@ -14,7 +14,7 @@ function need(name) {
 }
 
 const config = {
-    identityURL: need('identityURL'),
+    hostName: need('hostName'),
     restoreWIF: args.restoreWIF || null,
     restoreToken: args.restoreToken || null,
     certPath: need('cert'),

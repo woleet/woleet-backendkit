@@ -49,8 +49,10 @@
             expect(signature200).to.be.a(WoleetSignatureBackendKit.InlineResponse200);
         });
 
+        const TOKEN = '123456';
+
         it('should have the property pubKey (base name: "pubKey")', function (done) {
-            api.signatureGet(query.hashToSign, {pubKey: query.pubKey}, 'a/MNpBokdmdJu9hGMQJcFEdRy6+XUuSCpLYq/xQEVmM=', function (error, response) {
+            api.signatureGet(query.hashToSign, {pubKey: query.pubKey}, TOKEN, function (error, response) {
                 if (error) return done(error);
                 const instance = new WoleetSignatureBackendKit.InlineResponse200.constructFromObject(response);
                 assert(instance.pubKey);
@@ -60,7 +62,7 @@
         });
 
         it('should have the property signedHash (base name: "signedHash")', function (done) {
-            api.signatureGet(query.hashToSign, {pubKey: query.pubKey}, 'a/MNpBokdmdJu9hGMQJcFEdRy6+XUuSCpLYq/xQEVmM=', function (error, response) {
+            api.signatureGet(query.hashToSign, {pubKey: query.pubKey}, TOKEN, function (error, response) {
                 if (error) return done(error);
                 const instance = new WoleetSignatureBackendKit.InlineResponse200.constructFromObject(response);
                 assert(instance.signedHash);
@@ -71,7 +73,7 @@
         });
 
         it('should have the property signature (base name: "signature")', function (done) {
-            api.signatureGet(query.hashToSign, {pubKey: query.pubKey}, 'a/MNpBokdmdJu9hGMQJcFEdRy6+XUuSCpLYq/xQEVmM=', function (error, response) {
+            api.signatureGet(query.hashToSign, {pubKey: query.pubKey}, TOKEN, function (error, response) {
                 if (error) return done(error);
                 const instance = new WoleetSignatureBackendKit.InlineResponse200.constructFromObject(response);
                 assert(isBase64(instance.signature));
@@ -82,11 +84,11 @@
         });
 
         it('should have the property identityURL (base name: "identityURL")', function (done) {
-            api.signatureGet(query.hashToSign, {pubKey: query.pubKey}, 'a/MNpBokdmdJu9hGMQJcFEdRy6+XUuSCpLYq/xQEVmM=', function (error, response) {
+            api.signatureGet(query.hashToSign, {pubKey: query.pubKey}, TOKEN, function (error, response) {
                 if (error) return done(error);
                 const instance = new WoleetSignatureBackendKit.InlineResponse200.constructFromObject(response);
                 assert(instance.identityURL);
-                assert.equal(instance.identityURL, 'https://localhost/identity');
+                assert.equal(instance.identityURL, 'https://localhost:1234/identity');
                 done();
             });
         });

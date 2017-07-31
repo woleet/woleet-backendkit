@@ -52,7 +52,7 @@
             };
 
             it('should call signatureGet successfully', function (done) {
-                api.signatureGet(query.hashToSign, {pubKey: query.pubKey}, 'a/MNpBokdmdJu9hGMQJcFEdRy6+XUuSCpLYq/xQEVmM=', done);
+                api.signatureGet(query.hashToSign, {pubKey: query.pubKey}, '123456', done);
             });
         });
     });

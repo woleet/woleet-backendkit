@@ -7,6 +7,7 @@
     "start": "node main",
     "test": "mocha tests/test",
     "tests": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && mocha tests --recursive",
+    "swagger-tests-server": "npm start hostName=localhost key=${HOME}/ssl/selfsigned.key cert=${HOME}/ssl/selfsigned.crt defaultPort=1234 restoreToken=123456 restoreWIF=5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss",
     "swagger-tests": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && mocha tests/swagger-generated --recursive"
   },
   "repository": {
@@ -39,6 +40,8 @@
     "bs58": "latest",
     "bs58check": "latest",
     "express": "^4.15.3",
-    "http-typed-errors": "^1.0.1"
+    "http-typed-errors": "^1.0.1",
+    "js-yaml": "latest",
+    "swagger-ui-express": "latest"
   }
 }
