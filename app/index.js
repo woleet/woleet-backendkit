@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const path = require('path');
+const tls = require('tls');
 const url = require('url');
 const fs = require('fs');
 
@@ -7,6 +8,7 @@ const express = require('express');
 const Message = require('bitcore-message');
 const swagger = require('swagger-ui-express');
 const yaml = require('js-yaml');
+const mustache = require('mustache');
 
 const errorHandler = require('http-typed-errors');
 const {BadRequestError, UnauthorizedError} = errorHandler;
@@ -24,9 +26,8 @@ module.exports = function (config, store) {
 
     const publicKey = privateKey.toAddress().toString();
 
-    const host = config.hostName + (config.defaultPort === 443 ? '' : (':' + config.defaultPort));
-
-    console.log(host);
+    const hostName = config.hostName + (config.defaultPort === 443 ? '' : (':' + config.defaultPort));
+    const identityURL = `https://${hostName}/identity`;
 
     /**
      * @param {string} message
@@ -82,7 +83,6 @@ module.exports = function (config, store) {
 
                 const {pubKey, hashToSign} = req.query;
                 const signedHash = hashToSign;
-                const identityURL = `https://${host}/identity`;
 
                 if (!hashToSign) throw new BadRequestError("Needs 'hashToSign' query parameter");
                 if (!/^[a-f0-9]{64}$/.test(hashToSign)) throw new BadRequestError("Query parameter 'hashToSign' has to be an sha256 hash (in lowercase)");
@@ -99,9 +99,9 @@ module.exports = function (config, store) {
          * Documentation endpoint
          */
         if (endpoints.includes('documentation')) {
-            const buf = fs.readFileSync(path.join(__dirname, '../swagger.yaml'));
-            const doc = yaml.load(buf.toString());
-            doc.host = host;
+            const data = fs.readFileSync(path.join(__dirname, '../swagger.yaml'), 'utf-8');
+            const doc = yaml.load(data);
+            doc.host = hostName;
 
             // if the signature endpoint isn't public, we delete the corresponding definitions
             if (!(endpoints.includes('signature'))) {
@@ -110,6 +110,58 @@ module.exports = function (config, store) {
             }
 
             app.use('/documentation', swagger.serve, swagger.setup(doc));
+        }
+
+        /**
+         * Homepage endpoint
+         */
+        if (endpoints.includes('homepage')) {
+            /**
+             * @typedef {{certificate: Certificate, error: string, authorized: boolean}} JSONCertificate
+             */
+
+            /**
+             * Getting our own certificate
+             * @private
+             * @type Promise.<JSONCertificate>
+             */
+            const gettingCertificate = new Promise((resolve) => {
+                const sock = tls.connect({
+                    rejectUnauthorized: false,
+                    port: config.defaultPort,
+                    host: '127.0.0.1'
+                }, () => {
+                    const cert = sock.getPeerCertificate();
+                    delete cert.raw;
+                    resolve({
+                        authorized: sock.authorized,
+                        error: sock.authorized ? undefined : sock.authorizationError,
+                        certificate: cert
+                    });
+                });
+            });
+
+            const renderingWelcomePage = gettingCertificate.then((cert) => new Promise((resolve, reject) => {
+                fs.readFile(path.join(__dirname, '../homepage/style.css'), 'utf8', (err, style) => {
+                    if (err) reject(err);
+                    else {
+                        fs.readFile(path.join(__dirname, '../homepage/index.mustache'), 'utf8', (err, data) => {
+                            if (err) reject(err);
+                            else resolve(mustache.render(data, {
+                                cert: cert.certificate,
+                                style,
+                                certError: cert.error,
+                                publicKey,
+                                identityURL
+                            }));
+                        });
+                    }
+                });
+            }));
+
+            app.get('/', (req, res) => {
+                renderingWelcomePage.then((rendered) => res.send(rendered));
+            });
         }
 
         app.use(errorHandler.handle404);

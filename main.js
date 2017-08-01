@@ -13,9 +13,9 @@ const SIGNATURE_PORT = config.signaturePort;
 if (config.signaturePort) {
     https.createServer({key, cert}, appFactory(['signature']))
         .listen(SIGNATURE_PORT, () => console.log(`Signature server listening on port ${SIGNATURE_PORT}`));
-    https.createServer({key, cert}, appFactory(['identity', 'documentation']))
+    https.createServer({key, cert}, appFactory(['identity', 'documentation', 'homepage']))
         .listen(DEFAULT_PORT, () => console.log(`Identity server listening on port ${DEFAULT_PORT}`));
 } else {
-    https.createServer({key, cert}, appFactory(['identity', 'signature', 'documentation']))
+    https.createServer({key, cert}, appFactory(['identity', 'signature', 'documentation', 'homepage']))
         .listen(DEFAULT_PORT, () => console.log(`Server listening on port ${DEFAULT_PORT} for both identity and signature`));
 }
