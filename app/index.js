@@ -95,27 +95,13 @@ module.exports = function (config, store) {
             });
         }
 
-        /**
-         * Documentation endpoint
-         */
-        if (endpoints.includes('documentation')) {
-            const data = fs.readFileSync(path.join(__dirname, '../swagger.yaml'), 'utf-8');
-            const doc = yaml.load(data);
-            doc.host = hostName;
-
-            // if the signature endpoint isn't public, we delete the corresponding definitions
-            if (!(endpoints.includes('signature'))) {
-                delete doc.paths['/signature'];
-                delete doc.definitions['SignatureOUT'];
-            }
-
-            app.use('/documentation', swagger.serve, swagger.setup(doc));
-        }
 
         /**
-         * Homepage endpoint
+         * Rendering homepage
+         * @type {Promise}
          */
-        if (endpoints.includes('homepage')) {
+        const renderingHomePage = (() => {
+            if (!endpoints.includes('homepage')) return Promise.resolve();
             /**
              * @typedef {{certificate: Certificate, error: string, authorized: boolean}} JSONCertificate
              */
@@ -141,7 +127,7 @@ module.exports = function (config, store) {
                 });
             });
 
-            const renderingWelcomePage = gettingCertificate.then((cert) => new Promise((resolve, reject) => {
+            return gettingCertificate.then((cert) => new Promise((resolve, reject) => {
                 fs.readFile(path.join(__dirname, '../homepage/style.css'), 'utf8', (err, style) => {
                     if (err) reject(err);
                     else {
@@ -158,9 +144,39 @@ module.exports = function (config, store) {
                     }
                 });
             }));
+        })();
 
+        /**
+         * Documentation endpoint
+         */
+        if (endpoints.includes('documentation')) {
+            const data = fs.readFileSync(path.join(__dirname, '../swagger.yaml'), 'utf-8');
+            const doc = yaml.load(data);
+            doc.host = hostName;
+
+            // if the signature endpoint isn't public, we delete the corresponding definitions
+            if (!(endpoints.includes('signature'))) {
+                delete doc.paths['/signature'];
+                delete doc.definitions['SignatureOUT'];
+            }
+
+            app.use('/documentation', swagger.serve, swagger.setup(doc));
+        }
+
+        /**
+         * Homepage endpoint
+         */
+        if (endpoints.includes('homepage')) {
             app.get('/', (req, res) => {
-                renderingWelcomePage.then((rendered) => res.send(rendered));
+                renderingHomePage.then((rendered) => res.send(rendered));
+            });
+
+            // catching errors and serving the homepage if the client accepts html
+            app.use((err, req, res, next) => {
+                if ((err.statusCode === 400 || err.statusCode === 401) && (req.accepts('text/html'))) {
+                    renderingHomePage.then((rendered) => res.status(err.statusCode).send(rendered));
+                }
+                else next(err)
             });
         }
 
