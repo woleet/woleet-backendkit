@@ -13,7 +13,7 @@ This API provides two endpoints:
  * `/identity` allows **anyone** to verify that your backend effectively owns its claimed bitcoin address
  * `/signature` allows **your backend** (and only yours) to sign some data using its bitcoin identity
 
-The Woleet backend kit also exposes the documentation of its own API on the `/documentation` URL (note that the `/signature` endpoint is not displayed if you define a specific port for it).
+The Woleet backend kit also exposes the documentation of its own API on the `/documentation` endpoint.
 
 ### Prerequisites
 

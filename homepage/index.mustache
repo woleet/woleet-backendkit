@@ -39,13 +39,13 @@
         </div>
     {{/certError}}
 
-    <h5>The owner of this page's TLS certificate</h5>
+    <h4>The owner of this page's TLS certificate</h4>
     <h3><span class="label label-info">{{cert.subject.CN}} -  {{cert.subject.O}}, {{cert.subject.L}}, {{cert.subject.ST}}, {{cert.subject.C}}</span></h3>
     <div>issued by <span class="label label-info">{{cert.issuer.CN}} - {{cert.issuer.O}}, {{cert.issuer.L}}, {{cert.issuer.ST}}, {{cert.issuer.C}}</span></div>
 
     <br>
 
-    <h5>claims to be the owner of the bitcoin address</h5>
+    <h4>claims to be the owner of the bitcoin address</h4>
     <h3><span class="label label-info">{{publicKey}}</span></h3>
 
     <br><br>

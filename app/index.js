@@ -154,13 +154,6 @@ module.exports = function (config, store) {
             const data = fs.readFileSync(path.join(__dirname, '../swagger.yaml'), 'utf-8');
             const doc = yaml.load(data);
             doc.host = hostName;
-
-            // if the signature endpoint isn't public, we delete the corresponding definitions
-            if (!(endpoints.includes('signature'))) {
-                delete doc.paths['/signature'];
-                delete doc.definitions['SignatureOUT'];
-            }
-
             app.use('/documentation', swagger.serve, swagger.setup(doc));
         }
 
