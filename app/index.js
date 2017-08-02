@@ -46,7 +46,7 @@ module.exports = function (config, store) {
          */
         const app = express();
 
-// allow cross domain
+        // allow cross domain
         app.use((req, res, next) => {
             res.setHeader("Access-Control-Allow-Origin", "*");
             res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -91,7 +91,6 @@ module.exports = function (config, store) {
                 const signature = sign(hashToSign);
 
                 res.json({signature, pubKey: publicKey, signedHash, identityURL})
-
             });
         }
 
@@ -112,19 +111,21 @@ module.exports = function (config, store) {
              * @type Promise.<JSONCertificate>
              */
             const gettingCertificate = new Promise((resolve) => {
-                const sock = tls.connect({
-                    rejectUnauthorized: false,
-                    port: config.defaultPort,
-                    host: '127.0.0.1'
-                }, () => {
-                    const cert = sock.getPeerCertificate();
-                    delete cert.raw;
-                    resolve({
-                        authorized: sock.authorized,
-                        error: sock.authorized ? undefined : sock.authorizationError,
-                        certificate: cert
+                setTimeout(() => {
+                    const sock = tls.connect({
+                        rejectUnauthorized: false,
+                        port: config.defaultPort,
+                        host: '127.0.0.1'
+                    }, () => {
+                        const cert = sock.getPeerCertificate();
+                        delete cert.raw;
+                        resolve({
+                            authorized: sock.authorized,
+                            error: sock.authorized ? undefined : sock.authorizationError,
+                            certificate: cert
+                        });
                     });
-                });
+                }, 2000)
             });
 
             return gettingCertificate.then((cert) => new Promise((resolve, reject) => {
