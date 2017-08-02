@@ -12,7 +12,7 @@ This server aims to provide an easy way to sign a hash and proving that you are 
 
 In order to run this server you will need:
 - A web domain.
-- An ssl certificate (certificate and key) for your domain.
+- A TLS certificate (and key) for your domain.
 - For a docker usage: Docker is installed on your system. 
 - For a node-only usage: "forever" is globally installed on your system (npm i -g forever`)
 

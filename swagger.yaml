@@ -3,14 +3,11 @@ host: localhost
 basePath: /
 info:
   version: 1.0.0
-  title: Woleet signature backend kit
+  title: Woleet's identity and signature API for backends
   description: >
-    This server aims to provide an easy way to sign a hash and proving that you are the corresponding signee on demand by providing two endpoints:
-
-      `/identity` let **anyone** verify that you own the private key corresponding to your address.
-
-      `/signature` let **you** (and only you) sign a hash.
-
+    This API, exposed by the NodeJS server of Woleet's backend kit, allows:
+     - your backend (and only it) to sign some data using its Bitcoin identity (as generated during backend kit installation)
+     - anybody to verify the Bitcoin identity of your backend (ie. prove that your backend owns the private key associated to its claimed bitcoin identity)
 schemes:
   - https
 consumes:
@@ -29,13 +26,9 @@ paths:
       description: >
         Allows the client to sign a hash:
 
-          A `hashToSign` paremeter provided by the client is signed (only if the server owns the private key corresponding to the `pubKey` parameter.
+          A `hashToSign` parameter provided by the client is signed (only if the server owns the private key corresponding to the `pubKey` parameter.<br>
 
-          <br>
-
-          This endpoint is protected by an access token, provided on the server's initialzation.
-
-          <br>
+          This endpoint is protected by an access token, provided on the server's initialization.<br>
 
           Note that this endpoint may not be exposed on the same port as the `/identity` endpoint.
       parameters:
@@ -78,7 +71,7 @@ paths:
       description: >
         Proves an identity ownership by signing random data:
 
-          the concatenation of a `leftData` paremeter provided by the client and a `rightData` paremeter provided by the server
+          the concatenation of a `leftData` parameter provided by the client and a `rightData` parameter provided by the server
           is signed; if this signature matches the pubKey, then the server owns the corresponding private key.
       parameters:
         - name: pubKey

@@ -14,7 +14,7 @@
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <style>
-        {{{style}}}
+            {{{style}}}
     </style>
 
 </head>
@@ -31,30 +31,39 @@
 </div>
 
 <div class="container">
-    {{#certError}}
-    <div class="code alert alert-danger">
-        <h5>Certificate has the following error:</h5>
-        <span style="margin-left: 2em">{{certError}}</span>
-    </div>
-    {{/certError}}
-    <h4>The owner of the certificate: <code class="code alert alert-info">{{cert.subject.CN}} ({{cert.subject.O}} {{cert.subject.L}} {{cert.subject.ST}} {{cert.subject.C}})</code></h4>
-    <h5>issued by: <code class="code alert alert-info">{{cert.issuer.CN}} ({{cert.issuer.O}} {{cert.issuer.L}} {{cert.issuer.ST}} {{cert.issuer.C}})</code></h5>
 
-    <h4>claims to be the owner of the bitcoin address <code class="code alert alert-info">{{publicKey}}</code></h4>
+    {{#certError}}
+        <div class="alert alert-danger">
+            TLS certificate error:<br>
+            <small>{{certError}}</small>
+        </div>
+    {{/certError}}
+
+    <h5>The owner of this page's TLS certificate</h5>
+    <h3><span class="label label-info">{{cert.subject.CN}} -  {{cert.subject.O}}, {{cert.subject.L}}, {{cert.subject.ST}}, {{cert.subject.C}}</span></h3>
+    <div>issued by <span class="label label-info">{{cert.issuer.CN}} - {{cert.issuer.O}}, {{cert.issuer.L}}, {{cert.issuer.ST}}, {{cert.issuer.C}}</span></div>
 
     <br>
 
-    <div style="display: flex;"><a target="_blank" href="http://btcproof.info/identity?pubKey={{publicKey}}&identityURL={{identityURL}}" class="btn btn-success btn-center">Verify</a></div>
+    <h5>claims to be the owner of the bitcoin address</h5>
+    <h3><span class="label label-info">{{publicKey}}</span></h3>
+
+    <br><br>
+
+    <div style="display: flex">
+        <a class="btn btn-success btn-center" target="_blank" href="http://btcproof.info/identity?pubKey={{publicKey}}&identityURL={{identityURL}}">
+            Verify claim using http://btcproof.info
+        </a>
+    </div>
 
 </div>
 
-
 <span style="color: #b3b8c3; font-size: 10px; position: absolute; top: 5px;right: 5px;">
-    This tool is gracefully provided to <a href="https://github.com/woleet/woleet-widget">
+    This tool is gracefully provided to <a href="https://github.com/woleet/woleet-backendkit">
     the community</a> by <a href="https://woleet.io">Woleet</a>
 </span>
 
-<footer>See <a href="/documentation">documentation</a></footer>
+<footer>See <a href="/documentation">Woleet's backend kit API documentation</a></footer>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 {
   "name": "woleet-backendkit",
   "version": "1.0.0",
-  "description": "Woleet signature backend kit",
+  "description": "Woleet's identity and signature server for backends",
   "main": "main.js",
   "scripts": {
     "start": "node main",
@@ -17,7 +17,8 @@
   "keywords": [
     "bitcoin",
     "timestamp",
-    "signature"
+    "signature",
+    "identity"
   ],
   "author": "Woleet ",
   "license": "MIT",
