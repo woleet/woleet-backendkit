@@ -127,15 +127,15 @@
          */
         "Needs &#39;hashToSign&#39; query parameter": "Needs 'hashToSign' query parameter",
         /**
-         * value: "Query parameter 'hashToSign' has to be an sha256 hash (in lowercase)"
+         * value: "Query parameter 'hashToSign' has to be a SHA256 hash (in lowercase)"
          * @const
          */
-        "Query parameter &#39;hashToSign&#39; has to be an sha256 hash (in lowercase)": "Query parameter 'hashToSign' has to be an sha256 hash (in lowercase)",
+        "Query parameter &#39;hashToSign&#39; has to be a SHA256 hash (in lowercase)": "Query parameter 'hashToSign' has to be a SHA256 hash (in lowercase)",
         /**
-         * value: "Unhandled pubKey"
+         * value: "Unhandled public key"
          * @const
          */
-        "Unhandled pubKey": "Unhandled pubKey",
+        "Unhandled public key": "Unhandled public key",
         /**
          * value: "Bad token"
          * @const

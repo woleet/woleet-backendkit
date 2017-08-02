@@ -1,12 +1,19 @@
 ## Woleet backend kit
 
-This server aims to provide an easy way to sign a hash and proving that you are the corresponding signee on demand by providing two endpoints:
-    
-`/identity` let **anyone** verify that you own the private key corresponding to your address. 
-      
-`/signature` let **you** (and only you) sign a hash.
+The Woleet backend kit provides tools allowing your backend to easily:
+ * manage its bitcoin identity
+ * sign some data using its bitcoin identity
+ * prove to the world its bitcoin identity
 
-`/documentation` exposes the swagger ui for the api (the "/signature" endpoint is not displayed if `signaturePort` is set).
+The kit is made of:
+ * an installation script allowing to generate and restore a bitcoin identity for your backend
+ * a NodeJS server exposing a REST API
+ 
+This API provides two endpoints:
+ * `/identity` allows **anyone** to verify that your backend effectively owns its claimed bitcoin address
+ * `/signature` allows **your backend** (and only yours) to sign some data using its bitcoin identity
+
+The Woleet backend kit also exposes the documentation of its own API on the `/documentation` URL (note that the `/signature` endpoint is not displayed if you define a specific port for it).
 
 ### Prerequisites
 
