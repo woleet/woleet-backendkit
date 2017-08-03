@@ -110,7 +110,7 @@ module.exports = function (config, store) {
              * @private
              * @type Promise.<JSONCertificate>
              */
-            const gettingCertificate = new Promise((resolve) => {
+            const gettingCertificate = new Promise((resolve, reject) => {
                 setTimeout(() => {
                     const sock = tls.connect({
                         rejectUnauthorized: false,
@@ -125,25 +125,25 @@ module.exports = function (config, store) {
                             certificate: cert
                         });
                     });
+                    sock.on('error', reject);
                 }, 2000)
             });
 
-            return gettingCertificate.then((cert) => new Promise((resolve, reject) => {
-                fs.readFile(path.join(__dirname, '../homepage/style.css'), 'utf8', (err, style) => {
-                    if (err) reject(err);
-                    else {
-                        fs.readFile(path.join(__dirname, '../homepage/index.mustache'), 'utf8', (err, data) => {
-                            if (err) reject(err);
-                            else resolve(mustache.render(data, {
-                                cert: cert.certificate,
-                                style,
-                                certError: cert.error,
-                                publicKey,
-                                identityURL
-                            }));
-                        });
-                    }
-                });
+            return gettingCertificate.then((cert) => new Promise((resolve) => {
+                try {
+                    const style = fs.readFileSync(path.join(__dirname, '../homepage/style.css'), 'utf8');
+                    const template = fs.readFileSync(path.join(__dirname, '../homepage/index.mustache'), 'utf8');
+                    resolve(mustache.render(template, {
+                        cert: cert.certificate,
+                        style,
+                        certError: cert.error,
+                        publicKey,
+                        identityURL
+                    }));
+                } catch (err) {
+                    console.error(err);
+                    resolve('Error while rendering page.');
+                }
             }));
         })();
 
