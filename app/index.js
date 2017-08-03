@@ -154,7 +154,11 @@ module.exports = function (config, store) {
             const data = fs.readFileSync(path.join(__dirname, '../swagger.yaml'), 'utf-8');
             const doc = yaml.load(data);
             doc.host = hostName;
-            app.use('/documentation', swagger.serve, swagger.setup(doc));
+            app.use('/documentation', swagger.serve, swagger.setup(doc, null, {
+                docExpansion: "list",
+                showRequestHeaders: false,
+                defaultModelRendering: "model",
+            }));
         }
 
         /**

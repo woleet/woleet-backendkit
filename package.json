@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node main",
     "test": "mocha tests/test",
+    "bench-servers": "npm run swagger-tests-server defaultPort=4567 cluster=1 | npm run swagger-tests-server",
+    "bench": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && node bench/",
     "tests": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && mocha tests --recursive",
     "swagger-tests-server": "npm start hostName=localhost key=${HOME}/ssl/selfsigned.key cert=${HOME}/ssl/selfsigned.crt defaultPort=1234 restoreToken=123456 restoreWIF=5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss",
     "swagger-tests": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && mocha tests/swagger-generated --recursive"
@@ -27,13 +29,14 @@
   },
   "homepage": "https://github.com/woleet/woleet-backendkit#readme",
   "devDependencies": {
+    "api-benchmark": "^0.4.2",
     "@types/express": "^4.0.36",
     "bitcoinjs-message": "^1.0.1",
     "chai": "^4.0.2",
+    "expect.js": "~0.3.1",
     "mocha": "^3.4.2",
-    "supertest": "^3.0.0",
     "sinon": "1.17.3",
-    "expect.js": "~0.3.1"
+    "supertest": "^3.0.0"
   },
   "dependencies": {
     "bitcore-lib": "^0.13.7",

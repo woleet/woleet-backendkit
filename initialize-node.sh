@@ -33,6 +33,8 @@ while [ $# -gt 0 ]; do
       TOKEN_REGEN_PARAM="forceRegenToken=1";;
     --regen-wif)
       WIF_RESTORATION_PARAM="forceRegenWIF=1";;
+    --cluster)
+      CLUSTER_PARAM="cluster=1";;
     *)
       printf "* Error: Invalid argument: "$1"\n"
       exit 1
@@ -64,7 +66,7 @@ if [ ${#WIF_RESTORATION_PARAM} -eq 0 ]; then
     fi
 fi
 
-forever -o ${OUT_FILE} -e ${ERR_FILE} --pidFile ${PID_FILE} --minUptime 30000 --spinSleepTime 3000 start main.js ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} key=${KEY} cert=${CRT} hostName=${URL} defaultPort=${DEFAULT_PORT}
+forever -o ${OUT_FILE} -e ${ERR_FILE} --pidFile ${PID_FILE} --minUptime 30000 --spinSleepTime 3000 start main.js ${SGP_PARAM} ${WIF_RESTORATION_PARAM} ${TOKEN_REGEN_PARAM} ${CLUSTER_PARAM} key=${KEY} cert=${CRT} hostName=${URL} defaultPort=${DEFAULT_PORT}
 
 #############################################################
 #  Since here, we are done, just showing keys to the user   #

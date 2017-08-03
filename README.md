@@ -37,6 +37,7 @@ Simply run the "initialise-[node|docker].sh" script with the following parameter
 - defaultPort=<IDENTITY_PORT> (optional, default: 443), expose the "/identity" endpoint on an specific port.
 - "--regen-token" (optional),force a new token generation.
 - "--regen-wif"(optional), force a new private key generation.
+- "--cluster"(optional), uses node [cluster](https://nodejs.org/docs/latest/api/cluster.html#cluster_cluster) api to handle the load.
 
 
 The helper script will:
@@ -53,12 +54,13 @@ Example:<br>
 
 ### Running the backend kit without the helper script:
 
-In addition to `cert`, `key`, `hostName` and `signaturePort` (see above), running 
+In addition to `cert`, `key`, `hostName` ,`defaultPort` and `signaturePort` (see above), running 
 the backend kit without the helper script allows you to set some extra parameters:
  - restoreWIF=<bitcoin WIF private key> (optional) private key as Wallet Import Format (base 58); if not provided a random key is generated
  - restoreToken=<TOKEN> (optional), if not provided a random token is generated.
  - "forceRegenWIF=1" (optional), force a new private key generation (if set: restoreWIF will be ignored).
  - "forceRegenToken=1" (optional), force a new token generation (if set: restoreToken will be ignored).
+ - "cluster=1" (optional), see `--cluster` above.
  
 Example:
 ```bash
