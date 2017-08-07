@@ -2,7 +2,7 @@
 
 function get_docker_id()
 {
-echo $(docker ps | grep woleet-backend-kit | cut -d' ' -f1)
+    echo $(docker ps | grep woleet-backend-kit | cut -d' ' -f1)
 }
 
 RUNNING=$(get_docker_id)
@@ -18,7 +18,7 @@ docker build -t woleet-backend-kit .
 DEFAULT_PORT=443
 VOLUME=/usr/src/app/volume
 
-#Getting parameters
+# Getting parameters
 while [ $# -gt 0 ]; do
   case "$1" in
     key=*)
@@ -50,7 +50,7 @@ if [ ! -z ${SGP} ];
         SGP_PARAM="signaturePort=5443";
 fi
 
-# if --regen-wif option is set we do not offer to manually set the private key
+# If --regen-wif option is set we do not offer to manually set the private key
 if [ ${#WIF_RESTORATION_PARAM} -eq 0 ]; then
     read -r -p 'Would you like to manually set your private key? [y/N]' response
     case "$response" in
@@ -104,8 +104,8 @@ done
 
 # if RESTORE is set, we do not tell the user to backup it
 if [ -z ${RESTORE} ]; then
-    echo 'A new key pair has been generated, please carefully write it down:'
-    read -p "${wif} (Press any key to continue)" -n1 -s
+    echo 'A new key pair has been generated, please carefully write down your private key (WIF):'
+    read -p "${wif} (press any key to continue)" -n1 -s
     echo -en "\r\033[K"
 
     wif_6_last=${wif:${#wif}-6}
@@ -124,10 +124,10 @@ fi
 
 echo 'A new access token has been generated, please carefully write it down:'
 
-read -p "${token} (Press any key to continue)" -n1 -s
+read -p "${token} (press any key to continue)" -n1 -s
 echo -en "\r\033[K"
 
-echo "All set! Your address (public key) is ${address}"
+echo "All set! Your bitcoin address (public key) is ${address}"
 
 wif=""
 token=""

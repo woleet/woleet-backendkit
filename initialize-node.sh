@@ -16,7 +16,7 @@ fi
 
 DEFAULT_PORT=443
 
-#Getting parameters
+# Getting parameters
 while [ $# -gt 0 ]; do
   case "$1" in
     key=*)
@@ -78,7 +78,7 @@ address=""
 
 function get_string()
 {
-cat ${OUT_FILE} 2>&1 | grep -a --text $1 | tail -1 | cut  -d' ' -f2
+    cat ${OUT_FILE} 2>&1 | grep -a --text $1 | tail -1 | cut  -d' ' -f2
 }
 
 # Getting generated/restored keys
@@ -96,10 +96,10 @@ do
    fi
 done
 
-# if RESTORE is set, we do not tell the user to backup it
+# If RESTORE is set, we do not tell the user to backup it
 if [ -z ${RESTORE} ]; then
-    echo 'A new key pair has been generated, please carefully write it down:'
-    read -p "${wif} (Press any key to continue)" -n1 -s
+    echo 'A new key pair has been generated, please carefully write down your private key (WIF):'
+    read -p "${wif} (press any key to continue)" -n1 -s
     echo -en "\r\033[K"
 
     wif_6_last=${wif:${#wif}-6}
@@ -118,10 +118,10 @@ fi
 
 echo 'A new access token has been generated, please carefully write it down:'
 
-read -p "${token} (Press any key to continue)" -n1 -s
+read -p "${token} (press any key to continue)" -n1 -s
 echo -en "\r\033[K"
 
-echo "All set! Your address (public key) is ${address}"
+echo "All set! Your bitcoin address (public key) is ${address}"
 
 wif=""
 token=""

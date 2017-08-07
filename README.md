@@ -1,9 +1,11 @@
 ## Woleet backend kit
 
-The Woleet backend kit provides tools allowing your backend to easily:
- * manage its bitcoin identity
+The Woleet backend kit facilitates the integration of Woleet's
+ [signature anchoring](https://medium.com/@woleet/beyond-data-anchoring-bee867d9be3a)
+  functionality into your backend workflow, by providing all you need for your backend to easily:
+ * manage its bitcoin identity (ie. its private key and bitcoin address)
  * sign some data using its bitcoin identity
- * prove to the world its bitcoin identity
+ * expose and prove to the world its bitcoin identity
 
 The kit is made of:
  * an installation script allowing to generate and restore a bitcoin identity for your backend
@@ -11,21 +13,22 @@ The kit is made of:
  
 This API provides two endpoints:
  * `/identity` allows **anyone** to verify that your backend effectively owns its claimed bitcoin address
- * `/signature` allows **your backend** (and only yours) to sign some data using its bitcoin identity
+ * `/signature` allows **your backend** (and only it) to sign some data using its bitcoin address
 
-The Woleet backend kit also exposes the documentation of its own API on the `/documentation` endpoint.
+The documentation of this API is exposed on the `/documentation` endpoint.
 
 ### Prerequisites
 
-In order to run this server you will need:
-- A web domain.
-- A TLS certificate (and key) for your domain.
-- For a docker usage: Docker is installed on your system. 
-- For a node-only usage: "forever" is globally installed on your system (npm i -g forever`)
+To run the NodeJS server, you will need:
+* a web domain (eg. https://mycompany.com)
+* a SSL/TLS certificate (and the associated key) associated to your web domain
+
+To run the sever using Docker/NodeJS, you must install Docker on your system. 
+To run the server using NodeJS only, you need to globally install "forever" on your system (`npm i -g forever`)
 
 ### Installation
 
-Clone the project: git clone git@github.com:woleet/woleet-backendkit.git` or download https://github.com/woleet/woleet-backendkit/archive/master.zip and uncompress it.
+Clone the project (`git clone git@github.com:woleet/woleet-backendkit.git`) or download `https://github.com/woleet/woleet-backendkit/archive/master.zip` and uncompress it.
 
 ### First run with the helper script initialize-docker.sh or initialize-node.sh 
 
@@ -35,7 +38,7 @@ Simply run the "initialise-[node|docker].sh" script with the following parameter
 - hostName=<YOUR-DOMAIN> (in order to match with "https://<YOUR-DOMAIN>/identity").
 - signaturePort=<SIGNATURE_PORT> (optional), useful if you want to expose the "/signature" endpoint on an other port.
 - defaultPort=<IDENTITY_PORT> (optional, default: 443), expose the "/identity" endpoint on an specific port.
-- "--regen-token" (optional),force a new token generation.
+- "--regen-token" (optional), force a new token generation.
 - "--regen-wif"(optional), force a new private key generation.
 - "--cluster"(optional), uses node [cluster](https://nodejs.org/docs/latest/api/cluster.html#cluster_cluster) api to handle the load.
 
