@@ -24,8 +24,8 @@ const config = {
     restoreToken: args.restoreToken || null,
     certPath: need('cert'),
     keyPath: need('key'),
-    forceRegenWIF: !!(args.forceRegenWIF || false),
-    forceRegenToken: !!(args.forceRegenToken || false),
+    forceRegenWIF: !!(parseInt(args.forceRegenWIF) || false),
+    forceRegenToken: !!(parseInt(args.forceRegenToken) || false),
     defaultPort: args.defaultPort && parseInt(args.defaultPort) || 443,
     signaturePort: args.signaturePort && parseInt(args.signaturePort) || null,
     cluster: args.cluster && parseInt(args.cluster) || 0

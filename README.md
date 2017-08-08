@@ -38,8 +38,6 @@ Simply run the "initialise-[node|docker].sh" script with the following parameter
 - domain=<YOUR_DOMAIN> (in order to match with "https://<YOUR_DOMAIN>/identity").
 - signaturePort=<SIGNATURE_PORT> (optional, default 443), set it if you want to expose the "/signature" endpoint on an other port.
 - defaultPort=<IDENTITY_PORT> (optional, default: 443), expose the "/identity" endpoint on an specific port.
-- "--regen-token" (optional), force a new token generation.
-- "--regen-wif" (optional), force a new private key generation.
 - "--cluster" (optional), uses node [cluster](https://nodejs.org/docs/latest/api/cluster.html#cluster_cluster) mode to handle the load.
 
 The helper script will:
