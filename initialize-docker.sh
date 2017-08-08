@@ -20,7 +20,6 @@ echo docker run  \
     -v ${KEY}:${VOLUME}/key  \
     -v ${CRT}:${VOLUME}/cert \
     --rm -d woleet-backend-kit \
-    ${SGP_PARAM} ${WIF_RESTORATION_PARAM} \
-    ${TOKEN_REGEN_PARAM} ${CLUSTER_PARAM}\
+    ${SGP_PARAM} ${CLUSTER_PARAM}\
     key=${VOLUME}/key cert=${VOLUME}/cert domain=${URL} \
     restoreWIF=${restoreWIF} restoreToken=${restoreToken}

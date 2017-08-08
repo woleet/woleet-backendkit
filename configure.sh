@@ -31,10 +31,6 @@ while [ $# -gt 0 ]; do
       SGP="${1#*=}";;
     defaultPort=*)
       DEFAULT_PORT="${1#*=}";;
-    --regen-token)
-      TOKEN_REGEN_PARAM="forceRegenToken=1";;
-    --regen-wif)
-      WIF_RESTORATION_PARAM="forceRegenWIF=1";;
     --cluster)
       CLUSTER_PARAM="cluster=1";;
     *)
@@ -53,27 +49,24 @@ need_param "key" ${KEY}
 #############################################################
 
 # if --regen-wif option is set we do not offer to manually set the private key
-if [ ${#WIF_RESTORATION_PARAM} -eq 0 ]; then
-    read -r -p "Would you like to manually set your private key? [y/N]" response
-    case "$response" in
-        [yY][eE][sS]|[yY]) RESTORE=1;;
-        *);;
-    esac
+read -r -p "Would you like to manually set your private key? [y/N]" response
+case "$response" in
+    [yY][eE][sS]|[yY]) RESTORE=1;;
+    *);;
+esac
 
-    #if RESTORE option
-    if [ ! -z ${RESTORE} ]; then
-        echo "Enter your private key (WIF):"
-        read -r WIF_RESTORATION
-        WIF_RESTORATION_PARAM="restoreWIF=$WIF_RESTORATION"
-    fi
+#if RESTORE option
+if [ ! -z ${RESTORE} ]; then
+    echo "Enter your private key (WIF):"
+    read -r WIF_RESTORATION
+    WIF_RESTORATION_PARAM="restoreWIF=$WIF_RESTORATION"
 fi
 
 node generate-config.js ${SGP_PARAM} \
     ${WIF_RESTORATION_PARAM} \
     ${TOKEN_REGEN_PARAM} \
-    domain=${URL} \
-    && source generated-configuration
-source generated-configuration
+    domain=${URL} && \
+    source generated-configuration
 
 #############################################################
 #  Since here, we are done, just showing keys to the user
