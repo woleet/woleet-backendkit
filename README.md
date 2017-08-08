@@ -23,8 +23,7 @@ To run the NodeJS server, you will need:
 * a web domain (eg. https://mycompany.com)
 * a SSL/TLS certificate (and the associated key) associated to your web domain
 
-To run the sever using Docker/NodeJS, you must install Docker on your system. 
-To run the server using NodeJS only, you need to globally install "forever" on your system (`npm i -g forever`)
+To run the sever using Docker/NodeJS, you must install Docker and node on your system. 
 
 ### Installation
 
@@ -35,7 +34,7 @@ Clone the project (`git clone git@github.com:woleet/woleet-backendkit.git`) or d
 Simply run the "initialise-[node|docker].sh" script with the following parameters:
 - cert=<PATH_TO_CERTIFICATE> path to your certificate.
 - key=<PATH_TO_CERTIFICATE_KEY> path to your certificate's key.
-- hostName=<YOUR-DOMAIN> (in order to match with "https://<YOUR-DOMAIN>/identity").
+- domain=<YOUR-DOMAIN> (in order to match with "https://<YOUR-DOMAIN>/identity").
 - signaturePort=<SIGNATURE_PORT> (optional), useful if you want to expose the "/signature" endpoint on an other port.
 - defaultPort=<IDENTITY_PORT> (optional, default: 443), expose the "/identity" endpoint on an specific port.
 - "--regen-token" (optional), force a new token generation.
@@ -51,13 +50,13 @@ The helper script will:
 You will need the `access token` to use the "/signature" endpoint.
 
 Example:<br>
-`./initialize-docker.sh hostName=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
+`./initialize-docker.sh domain=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
 <br>or:<br>
-`./initialize-node.sh hostName=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
+`./initialize-node.sh domain=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
 
 ### Running the backend kit without the helper script:
 
-In addition to `cert`, `key`, `hostName` ,`defaultPort` and `signaturePort` (see above), running 
+In addition to `cert`, `key`, `domain` ,`defaultPort` and `signaturePort` (see above), running 
 the backend kit without the helper script allows you to set some extra parameters:
  - restoreWIF=<bitcoin WIF private key> (optional) private key as Wallet Import Format (base 58); if not provided a random key is generated
  - restoreToken=<TOKEN> (optional), if not provided a random token is generated.
@@ -67,7 +66,7 @@ the backend kit without the helper script allows you to set some extra parameter
  
 Example:
 ```bash
-npm start hostName=localhost \
+npm start domain=localhost \
     key=~/ssl/selfsigned.key \
     cert=~/ssl/selfsigned.crt \
     forceRegenWIF=1 \
@@ -76,15 +75,7 @@ npm start hostName=localhost \
     signaturePort=5443
 ```
 
-To run it as a daemon, you have to use `forever`, for example:
-```bash
-forever start main.js hostName=localhost \
-    key=~/ssl/selfsigned.key \
-    cert=~/ssl/selfsigned.crt \
-    restoreWIF=${MY_PRIVATE_KEY}
-```
- 
-Note that you **should not** use the restoreWIF/restoreToken options directly via the command line because of the command history. 
+Note that you should not use the restoreWIF/restoreToken options directly via the command line because of the bash history. 
 
 ### Endpoints description:
 

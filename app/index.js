@@ -26,8 +26,8 @@ module.exports = function (config, store) {
 
     const publicKey = privateKey.toAddress().toString();
 
-    const hostName = config.hostName + (config.defaultPort === 443 ? '' : (':' + config.defaultPort));
-    const identityURL = `https://${hostName}/identity`;
+    const domain = config.domain + (config.defaultPort === 443 ? '' : (':' + config.defaultPort));
+    const identityURL = `https://${domain}/identity`;
 
     /**
      * @param {string} message
@@ -153,7 +153,7 @@ module.exports = function (config, store) {
         if (endpoints.includes('documentation')) {
             const data = fs.readFileSync(path.join(__dirname, '../swagger.yaml'), 'utf-8');
             const doc = yaml.load(data);
-            doc.host = hostName;
+            doc.host = domain;
             app.use('/documentation', swagger.serve, swagger.setup(doc, null, {
                 docExpansion: "list",
                 showRequestHeaders: false,

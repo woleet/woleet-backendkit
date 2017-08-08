@@ -6,3 +6,4 @@
 *.pid
 *.DS_Store
 bench-*
+generated-configuration
