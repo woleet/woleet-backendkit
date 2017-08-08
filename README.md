@@ -3,15 +3,15 @@
 The Woleet backend kit facilitates the integration of Woleet's
  [signature anchoring](https://medium.com/@woleet/beyond-data-anchoring-bee867d9be3a)
   functionality into your backend workflow, by providing all you need for your backend to easily:
- * manage its bitcoin identity (ie. its private key and bitcoin address)
+ * manage its bitcoin identity (ie. its public bitcoin address and associated private key)
  * sign some data using its bitcoin identity
  * expose and prove to the world its bitcoin identity
 
-The kit is made of:
- * an initialization script allowing to generate and restore a bitcoin identity for your backend
- * a NodeJS server exposing a REST API
+The Woleet backend kit is made of:
+ * an initialization script allowing to generate and restore a bitcoin identity and API token for your backend kit
+ * a NodeJS server exposing the REST API of the backend kit
  
-This API provides two endpoints:
+The Woleet backend kit API provides two endpoints:
  * `/identity` allows **anyone** to verify that your backend effectively owns its claimed bitcoin address
  * `/signature` allows **your backend** (and only it) to sign some data using its bitcoin address
 
@@ -26,9 +26,11 @@ To run the NodeJS server, you will need:
 NodeJS needs to be installed on your system.
 To run the NodeJS server into a Docker container, you also need to install Docker on your system. 
 
-### Initialize the server
+### Install the server
 
 Clone the project (`git clone git@github.com:woleet/woleet-backendkit.git`) or download `https://github.com/woleet/woleet-backendkit/archive/master.zip` and uncompress it.
+
+### Initialize the server
 
 Go to the installation directory.
 
@@ -69,6 +71,7 @@ Example:
 
 or
 
+`docker run -p 443:443 -v ...:/usr/src/app/volume/key -v ...:/usr/src/app/volume/cert --rm -d woleet-backend-kit key=/usr/src/app/volume/key cert=/usr/src/app/volume/cert domain=... restoreWIF=... restoreToken=...=`
 
 ### Endpoints API documentation
 
