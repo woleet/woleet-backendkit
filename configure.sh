@@ -99,7 +99,7 @@ if [ -z ${RESTORE} ]; then
     done
 fi
 
-echo "A new access token has been generated (you will need it to access the '/signature' endpoint), please carefully write it down:"
+echo "A new API token has been generated, please carefully write it down (you will need it to access the '/signature' endpoint):"
 read -p "${restoreToken} (press any key to continue)" -n1 -s
 echo -en "\r\033[K"
 

@@ -35,7 +35,7 @@ paths:
         Use this endpoint to sign some data using the bitcoin identity of your backend.
           You first need to compute the SHA256 hash of your data (client side) and then provide it in the `hashToSign` parameter.
           The signature produced is the signature of this hash using the bitcoin address provided in the `pubKey` parameter (or by the default bitcoin address of your backend if not set).
-          This endpoint is protected by an access token, provided to you at backend kit installation time. However, for security reason, **this endpoint SHOULD NEVER be exposed** outside your backend. To facilitate the isolation of this endpoint, a dedicated port can be specified at installation time.
+          This endpoint is protected by an API token, provided to you at backend kit installation time. However, for security reason, **this endpoint SHOULD NEVER be exposed** outside your backend. To facilitate the isolation of this endpoint, a dedicated port can be specified at installation time.
       parameters:
         - name: pubKey
           in: query

@@ -39,9 +39,9 @@ const _wif = privateKey.toWIF();
 
 if (restored.secret !== secret || restored.wif !== _wif) save({secret, wif: _wif});
 
-console.log(`Token: ${secret}`);
-console.log(`Address: ${privateKey.toAddress()}`);
-console.log(`WIF: ${privateKey.toWIF()}`);
+console.log(`API token: ${secret}`);
+console.log(`Bitcoin address: ${privateKey.toAddress()}`);
+console.log(`Private key (WIF): ${privateKey.toWIF()}`);
 
 module.exports = {
     getKey: () => key,

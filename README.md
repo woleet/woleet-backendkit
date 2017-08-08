@@ -8,7 +8,7 @@ The Woleet backend kit facilitates the integration of Woleet's
  * expose and prove to the world its bitcoin identity
 
 The kit is made of:
- * an installation script allowing to generate and restore a bitcoin identity for your backend
+ * an initialization script allowing to generate and restore a bitcoin identity for your backend
  * a NodeJS server exposing a REST API
  
 This API provides two endpoints:
@@ -23,60 +23,56 @@ To run the NodeJS server, you will need:
 * a web domain (eg. https://mycompany.com)
 * a SSL/TLS certificate (and the associated key) associated to your web domain
 
-NodeJS need to be installed on your system.
-To run the NodeJS server using Docker, you also need to install Docker on your system. 
+NodeJS needs to be installed on your system.
+To run the NodeJS server into a Docker container, you also need to install Docker on your system. 
 
-### Installation
+### Initialize the server
 
 Clone the project (`git clone git@github.com:woleet/woleet-backendkit.git`) or download `https://github.com/woleet/woleet-backendkit/archive/master.zip` and uncompress it.
 
-### First run with the helper script initialize-docker.sh or initialize-node.sh 
+Go to the installation directory.
 
-Simply run the "initialise-[node|docker].sh" script with the following parameters:
+Choose which version of the initialization script you want to use: 2 versions are provided, initialize-docker.sh and initialize-node.sh, depending on whether you want to run the NodeJS server directly or embed it into a Docker container.
+
+Run the initialization script with the following parameters:
 - cert=<PATH_TO_CERTIFICATE> path to your certificate.
 - key=<PATH_TO_CERTIFICATE_KEY> path to your certificate's key.
 - domain=<YOUR_DOMAIN> (in order to match with "https://<YOUR_DOMAIN>/identity").
 - signaturePort=<SIGNATURE_PORT> (optional, default 443), set it if you want to expose the "/signature" endpoint on an other port.
-- defaultPort=<IDENTITY_PORT> (optional, default: 443), expose the "/identity" endpoint on an specific port.
-- "--regen-token" (optional), force a new token generation.
-- "--regen-wif" (optional), force a new private key generation.
-- "--cluster" (optional), uses node [cluster](https://nodejs.org/docs/latest/api/cluster.html#cluster_cluster) mode to handle the load.
+- defaultPort=<IDENTITY_PORT> (optional, default: 443), set it if you want to expose the "/identity" endpoint on an specific port.
+- --cluster (optional), set it to use node [cluster](https://nodejs.org/docs/latest/api/cluster.html#cluster_cluster) mode to handle a higher load.
 
-The helper script will:
-- Ask you if you want to restore a `private key` or generate a new one.
-- Display you the generated `private key` (WIF), `access token` and `address` (public key). 
- You will have to write them down carefully.
- 
-You will need the `access token` to use the "/signature" endpoint.
+The initialization script will:
+- Ask you if you want to restore a private key (WIF) or generate a new one.
+- Ask you if you want to restore an API token or generate a new one.
+- Display your private key (WIF), your API token and your bitcoin address (public key).
+- Display the command line to use to run the NodeJS server.
 
-Example:<br>
+**WARNING: The private key (WIF) is required to restore your bitcoin identity in case of system loss, and the API token is required to use the "/signature" endpoint.
+Be careful to write down and backup these 2 information carefully in order to restore your identity and service in case of server loss.**
+
+Example:
+
 `./initialize-docker.sh domain=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
-<br>or:<br>
+
+or
+
 `./initialize-node.sh domain=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
 
-### Running the backend kit without the helper script:
+### Start the server
 
-In addition to `cert`, `key`, `domain` ,`defaultPort` and `signaturePort` (see above), running 
-the backend kit without the helper script allows you to set some extra parameters:
- - restoreWIF=<bitcoin WIF private key> (optional) private key as Wallet Import Format (base 58); if not provided a random key is generated
- - restoreToken=<TOKEN> (optional), if not provided a random token is generated.
- - "forceRegenWIF=1" (optional), force a new private key generation (if set: restoreWIF will be ignored).
- - "forceRegenToken=1" (optional), force a new token generation (if set: restoreToken will be ignored).
- - "cluster=1" (optional), see `--cluster` above.
- 
+To run the server, simply run the command as displayed by the initialization script.
+
 Example:
-```bash
-npm start domain=localhost \
-    key=~/ssl/selfsigned.key \
-    cert=~/ssl/selfsigned.crt \
-    forceRegenWIF=1 \
-    forceRegenToken=1 \
-    defaultPort=4443 \
-    signaturePort=5443
-```
 
-Note that you should not use the restoreWIF/restoreToken options directly via the command line because of the bash history. 
+`node main key=... cert=... domain=... defaultPort=... restoreWIF=... restoreToken=...`
 
-### Endpoints description:
+or
 
-Detailed description of the API is described in the swagged.yaml file contained in this repository it can be imported at [editor.swagger.io](https://editor.swagger.io/).
+
+### Endpoints API documentation
+
+The detailed documentation of the backend kit API is described in the swagged.yaml file contained in this repository.
+ This file can be imported at [editor.swagger.io](https://editor.swagger.io/).
+ The documentation is exposed on the `/documentation` endpoint.
+ 

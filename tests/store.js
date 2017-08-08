@@ -6,9 +6,9 @@ const secret = config.restoreToken;
 const wif = config.restoreWIF;
 const privateKey = PrivateKey.fromWIF(wif);
 
-console.log(`Token: ${secret}`);
-console.log(`Address: ${privateKey.toAddress()}`);
-console.log(`WIF: ${privateKey.toWIF()}`);
+console.log(`API token: ${secret}`);
+console.log(`Bitcoin address: ${privateKey.toAddress()}`);
+console.log(`Private key (WIF): ${privateKey.toWIF()}`);
 
 module.exports = {
     getKey: () => null,
