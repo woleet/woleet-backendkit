@@ -10,7 +10,7 @@ source configure.sh
 
 if [ ! -z ${SGP} ];
     then
-        SGP_PARAM="signaturePort=5443";
+        SGP_PARAM="signaturePort=${SGP}";
 fi
 
 echo node main \
