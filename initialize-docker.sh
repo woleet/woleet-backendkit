@@ -10,9 +10,9 @@ docker build -t woleet-backend-kit .
 source configure.sh
 
 if [ ! -z ${SGP} ];
-    then
-        SGP_BINDING="-p ${SGP}:5443";
-        SGP_PARAM="signaturePort=5443";
+then
+    SGP_BINDING="-p ${SGP}:5443";
+    SGP_PARAM="signaturePort=5443";
 fi
 
 echo docker run  \

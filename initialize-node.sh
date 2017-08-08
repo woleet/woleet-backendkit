@@ -9,8 +9,8 @@ npm i --silent
 source configure.sh
 
 if [ ! -z ${SGP} ];
-    then
-        SGP_PARAM="signaturePort=5443";
+then
+    SGP_PARAM="signaturePort=$SGP";
 fi
 
 echo node main \

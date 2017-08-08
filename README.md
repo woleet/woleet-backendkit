@@ -23,7 +23,8 @@ To run the NodeJS server, you will need:
 * a web domain (eg. https://mycompany.com)
 * a SSL/TLS certificate (and the associated key) associated to your web domain
 
-To run the sever using Docker/NodeJS, you must install Docker and node on your system. 
+NodeJS need to be installed on your system.
+To run the NodeJS server using Docker, you also need to install Docker on your system. 
 
 ### Installation
 
@@ -34,17 +35,16 @@ Clone the project (`git clone git@github.com:woleet/woleet-backendkit.git`) or d
 Simply run the "initialise-[node|docker].sh" script with the following parameters:
 - cert=<PATH_TO_CERTIFICATE> path to your certificate.
 - key=<PATH_TO_CERTIFICATE_KEY> path to your certificate's key.
-- domain=<YOUR-DOMAIN> (in order to match with "https://<YOUR-DOMAIN>/identity").
-- signaturePort=<SIGNATURE_PORT> (optional), useful if you want to expose the "/signature" endpoint on an other port.
+- domain=<YOUR_DOMAIN> (in order to match with "https://<YOUR_DOMAIN>/identity").
+- signaturePort=<SIGNATURE_PORT> (optional, default 443), set it if you want to expose the "/signature" endpoint on an other port.
 - defaultPort=<IDENTITY_PORT> (optional, default: 443), expose the "/identity" endpoint on an specific port.
 - "--regen-token" (optional), force a new token generation.
-- "--regen-wif"(optional), force a new private key generation.
-- "--cluster"(optional), uses node [cluster](https://nodejs.org/docs/latest/api/cluster.html#cluster_cluster) api to handle the load.
-
+- "--regen-wif" (optional), force a new private key generation.
+- "--cluster" (optional), uses node [cluster](https://nodejs.org/docs/latest/api/cluster.html#cluster_cluster) mode to handle the load.
 
 The helper script will:
 - Ask you if you want to restore a `private key` or generate a new one.
-- Display you the generated `private key`, `access token` and `address` (public key). 
+- Display you the generated `private key` (WIF), `access token` and `address` (public key). 
  You will have to write them down carefully.
  
 You will need the `access token` to use the "/signature" endpoint.
