@@ -48,23 +48,35 @@ need_param "key" ${KEY}
 #  Generate config
 #############################################################
 
-# if --regen-wif option is set we do not offer to manually set the private key
+# manually set the private key
 read -r -p "Would you like to manually set your private key? [y/N]" response
 case "$response" in
     [yY][eE][sS]|[yY]) RESTORE=1;;
     *);;
 esac
 
-#if RESTORE option
 if [ ! -z ${RESTORE} ]; then
     echo "Enter your private key (WIF):"
     read -r WIF_RESTORATION
     WIF_RESTORATION_PARAM="restoreWIF=$WIF_RESTORATION"
 fi
 
+# manually set the api token
+read -r -p "Would you like to manually set the api token? [y/N]" response
+case "$response" in
+    [yY][eE][sS]|[yY]) RESTORE_TOKEN=1;;
+    *);;
+esac
+
+if [ ! -z ${RESTORE_TOKEN} ]; then
+    echo "Enter the token you want to use to access the \"/signature\" endpoint:"
+    read -r TOKEN_RESTORATION
+    TOKEN_RESTORATION_PARAM="restoreToken=$TOKEN_RESTORATION"
+fi
+
 node generate-config.js ${SGP_PARAM} \
     ${WIF_RESTORATION_PARAM} \
-    ${TOKEN_REGEN_PARAM} \
+    ${TOKEN_RESTORATION_PARAM} \
     domain=${URL} && \
     source generated-configuration
 
@@ -92,9 +104,11 @@ if [ -z ${RESTORE} ]; then
     done
 fi
 
-echo "A new API token has been generated, please carefully write it down (you will need it to access the '/signature' endpoint):"
-read -p "${restoreToken} (press any key to continue)" -n1 -s
-echo -en "\r\033[K"
+if [ -z ${RESTORE_TOKEN} ]; then
+    echo "A new API token has been generated, please carefully write it down (you will need it to access the '/signature' endpoint):"
+    read -p "${restoreToken} (press any key to continue)" -n1 -s
+    echo -en "\r\033[K"
+fi
 
 echo "All set! Your bitcoin address (public key) is '${address}'"
 echo "To use this server in ${MODE} mode, run:"
