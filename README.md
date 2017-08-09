@@ -1,4 +1,4 @@
-## Woleet backend kit
+# Woleet backend kit
 
 The Woleet backend kit facilitates the integration of Woleet's
  [signature anchoring](https://medium.com/@woleet/beyond-data-anchoring-bee867d9be3a)
@@ -17,7 +17,7 @@ The Woleet backend kit API provides two endpoints:
 
 The documentation of this API is exposed on the `/documentation` endpoint.
 
-### Prerequisites
+## Prerequisites
 
 To run the NodeJS server, you will need:
 * a web domain (eg. https://mycompany.com)
@@ -26,11 +26,11 @@ To run the NodeJS server, you will need:
 NodeJS needs to be installed on your system.
 To run the NodeJS server into a Docker container, you also need to install Docker on your system. 
 
-### Install the server
+## Install the server
 
 Clone the project (`git clone git@github.com:woleet/woleet-backendkit.git`) or download `https://github.com/woleet/woleet-backendkit/archive/master.zip` and uncompress it.
 
-### Initialize the server
+## Initialize the server
 
 Go to the installation directory.
 
@@ -61,7 +61,7 @@ or
 
 `./initialize-node.sh domain=localhost key=~/ssl/selfsigned.key cert=~/ssl/selfsigned.crt`
 
-### Start the server
+## Start the server
 
 To run the server, simply run the command as displayed by the initialization script.
 
@@ -73,7 +73,7 @@ or
 
 `docker run -p 443:443 -v ...:/usr/src/app/volume/key -v ...:/usr/src/app/volume/cert --rm -d woleet-backend-kit key=/usr/src/app/volume/key cert=/usr/src/app/volume/cert domain=... restoreWIF=... restoreToken=...=`
 
-### Endpoints API documentation
+## Endpoints API documentation
 
 The detailed documentation of the backend kit API is described in the swagged.yaml file contained in this repository.
  This file can be imported at [editor.swagger.io](https://editor.swagger.io/).
