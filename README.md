@@ -8,20 +8,21 @@ The Woleet backend kit facilitates the integration of Woleet's
  * expose and prove to the world its bitcoin identity
 
 The Woleet backend kit is made of:
- * an initialization script allowing to generate and restore a bitcoin identity and API token for your backend kit
+ * an initialization script allowing to generate or restore the bitcoin identity and the API token of the backend kit
  * a NodeJS server exposing the REST API of the backend kit
  
-The Woleet backend kit API provides two endpoints:
- * `/identity` allows **anyone** to verify that your backend effectively owns its claimed bitcoin address
- * `/signature` allows **your backend** (and only it) to sign some data using its bitcoin address
+The backend kit API exposes two public endpoints that need to be accessible from outside your backend:
+ * `/identity` allows to verify that your backend effectively owns its claimed bitcoin address
+ * `/documentation` allows to display the Swagger documentation of the backend kit API.
 
-The documentation of this API is exposed on the `/documentation` endpoint.
+Additionally, the backend kit API exposes one private endpoint that need to be accessible only from inside your backend:
+* `/signature` allows to sign some data using its bitcoin address (an API token is used to protect this endpoint)
 
 ## Prerequisites
 
-To run the NodeJS server, you will need:
-* a web domain (eg. https://mycompany.com)
-* a SSL/TLS certificate (and the associated key) associated to your web domain
+To install the NodeJS server, you will need:
+* a web domain (eg. mycompany.com) used to expose the public endpoints of the backend kit API
+* a valid (not self signed) TLS certificate (and its associated key) associated to the web domain
 
 NodeJS needs to be installed on your system.
 To run the NodeJS server into a Docker container, you also need to install Docker on your system. 
@@ -39,7 +40,7 @@ Choose which version of the initialization script you want to use: 2 versions ar
 Run the initialization script with the following parameters:
 - cert=<PATH_TO_CERTIFICATE> path to your certificate.
 - key=<PATH_TO_CERTIFICATE_KEY> path to your certificate's key.
-- domain=<YOUR_DOMAIN> (in order to match with "https://<YOUR_DOMAIN>/identity").
+- domain=<YOUR_DOMAIN> (to expose the API on "https://<YOUR_DOMAIN>/").
 - signaturePort=<SIGNATURE_PORT> (optional, default 443), set it if you want to expose the "/signature" endpoint on an other port.
 - defaultPort=<IDENTITY_PORT> (optional, default: 443), set it if you want to expose the "/identity" endpoint on an specific port.
 - --cluster (optional), set it to use node [cluster](https://nodejs.org/docs/latest/api/cluster.html#cluster_cluster) mode to handle a higher load.
