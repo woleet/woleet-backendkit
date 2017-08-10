@@ -41,7 +41,7 @@ paths:
           in: query
           required: false
           type: string
-          description: The bitcoin address to use to sign (or the default bitcoin address of your backend if not provided).
+          description: The bitcoin address to use to sign (or the default bitcoin address of your backend if not set).
         - name: hashToSign
           in: query
           required: true
