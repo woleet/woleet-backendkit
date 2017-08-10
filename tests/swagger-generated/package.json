@@ -1,0 +1,21 @@
+{
+  "name": "woleet_backend_kit_api",
+  "version": "1.0.0",
+  "description": "The_Woleet_backend_kit_API_as_exposed_by_Woleet_backend_kits_NodeJS_server_allows___your_backend__and_only_yours_to_sign_some_data_using_its_bitcoin_identity__as_generated_during_backend_kit_installation___anyone_to_verify_that_your_backend_effectively_owns_its_claimed_bitcoin_address",
+  "license": "Unlicense",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --recursive"
+  },
+  "browser": {
+    "fs": false
+  },
+  "dependencies": {
+    "superagent": "3.5.2"
+  },
+  "devDependencies": {
+    "mocha": "~2.3.4",
+    "sinon": "1.17.3",
+    "expect.js": "~0.3.1"
+  }
+}

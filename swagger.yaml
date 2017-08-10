@@ -131,9 +131,9 @@ definitions:
               - Unauthorized
               - Not Found
               - Internal Server Error
-              - Needs 'pubKey' query parameter
-              - Needs 'leftData' query parameter
-              - Needs 'hashToSign' query parameter
+              - Missing 'pubKey' query parameter
+              - Missing 'leftData' query parameter
+              - Missing 'hashToSign' query parameter
               - Query parameter 'hashToSign' has to be a SHA256 hash (in lowercase)
               - Unhandled public key
               - Bad token

@@ -61,8 +61,8 @@ module.exports = function (config, store) {
             app.get('/identity', (req, res) => {
                 const {pubKey, leftData} = req.query;
 
-                if (!pubKey) throw new BadRequestError("Needs 'pubKey' query parameter");
-                if (!leftData) throw new BadRequestError("Needs 'leftData' query parameter");
+                if (!pubKey) throw new BadRequestError("Missing 'pubKey' query parameter");
+                if (!leftData) throw new BadRequestError("Missing 'leftData' query parameter");
                 if (pubKey !== publicKey) throw new BadRequestError("Unhandled public key");
 
                 const rightData = crypto.randomBytes(32).toString('hex');
@@ -84,7 +84,7 @@ module.exports = function (config, store) {
                 const {pubKey, hashToSign} = req.query;
                 const signedHash = hashToSign;
 
-                if (!hashToSign) throw new BadRequestError("Needs 'hashToSign' query parameter");
+                if (!hashToSign) throw new BadRequestError("Missing 'hashToSign' query parameter");
                 if (!/^[a-f0-9]{64}$/.test(hashToSign)) throw new BadRequestError("Query parameter 'hashToSign' has to be a SHA256 hash (in lowercase)");
                 if (pubKey && pubKey !== publicKey) throw new BadRequestError("Unhandled public key");
 

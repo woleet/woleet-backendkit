@@ -16,62 +16,72 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/ErrorError'], factory);
+    define(['ApiClient'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./ErrorError'));
+    module.exports = factory(require('../ApiClient'));
   } else {
     // Browser globals (root is window)
     if (!root.WoleetBackendKitApi) {
       root.WoleetBackendKitApi = {};
     }
-    root.WoleetBackendKitApi.Error = factory(root.WoleetBackendKitApi.ApiClient, root.WoleetBackendKitApi.ErrorError);
+    root.WoleetBackendKitApi.IdentityResult = factory(root.WoleetBackendKitApi.ApiClient);
   }
-}(this, function(ApiClient, ErrorError) {
+}(this, function(ApiClient) {
   'use strict';
 
 
 
 
   /**
-   * The Error model module.
-   * @module model/Error
+   * The IdentityResult model module.
+   * @module model/IdentityResult
    * @version 1.0.0
    */
 
   /**
-   * Constructs a new <code>Error</code>.
-   * @alias module:model/Error
+   * Constructs a new <code>IdentityResult</code>.
+   * @alias module:model/IdentityResult
    * @class
    */
   var exports = function() {
     var _this = this;
 
 
+
   };
 
   /**
-   * Constructs a <code>Error</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>IdentityResult</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/Error} obj Optional instance to populate.
-   * @return {module:model/Error} The populated <code>Error</code> instance.
+   * @param {module:model/IdentityResult} obj Optional instance to populate.
+   * @return {module:model/IdentityResult} The populated <code>IdentityResult</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
 
-      if (data.hasOwnProperty('error')) {
-        obj['error'] = ErrorError.constructFromObject(data['error']);
+      if (data.hasOwnProperty('rightData')) {
+        obj['rightData'] = ApiClient.convertToType(data['rightData'], 'String');
+      }
+      if (data.hasOwnProperty('signature')) {
+        obj['signature'] = ApiClient.convertToType(data['signature'], 'String');
       }
     }
     return obj;
   }
 
   /**
-   * @member {module:model/ErrorError} error
+   * The right part of the signed data (generated ramdomly).
+   * @member {String} rightData
    */
-  exports.prototype['error'] = undefined;
+  exports.prototype['rightData'] = undefined;
+  /**
+   * The signature of the concatenation of `leftData` and `rightData` using the bitcoin address `pubKey`.
+   * @member {String} signature
+   */
+  exports.prototype['signature'] = undefined;
 
 
 

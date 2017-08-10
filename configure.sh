@@ -9,7 +9,7 @@ function need_param()
 {
     if [ -z "$2" ]
     then
-        echo "Needs '$1' parameter"
+        echo "Missing '$1' parameter"
         show_usage ${MODE}
         exit 1;
     fi
