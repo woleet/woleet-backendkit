@@ -115,7 +115,7 @@ module.exports = function (config, store) {
                     const sock = tls.connect({
                         rejectUnauthorized: false,
                         port: config.defaultPort,
-                        host: '127.0.0.1'
+                        host: config.domain
                     }, () => {
                         const cert = sock.getPeerCertificate();
                         delete cert.raw;
@@ -165,14 +165,14 @@ module.exports = function (config, store) {
          * Homepage endpoint
          */
         if (endpoints.includes('homepage')) {
-            app.get('/', (req, res) => {
-                renderingHomePage.then((rendered) => res.send(rendered));
+            app.get('/', (req, res, next) => {
+                renderingHomePage.then((rendered) => res.send(rendered)).catch(next);
             });
 
             // catching errors and serving the homepage if the client accepts html
             app.use((err, req, res, next) => {
                 if ((err.statusCode === 400 || err.statusCode === 401) && (req.accepts('text/html'))) {
-                    renderingHomePage.then((rendered) => res.status(err.statusCode).send(rendered));
+                    renderingHomePage.then((rendered) => res.status(err.statusCode).send(rendered)).catch(next);
                 }
                 else next(err)
             });
