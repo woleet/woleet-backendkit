@@ -29,7 +29,7 @@ To run the NodeJS server into a Docker container, you also need to install Docke
 
 ## Install the server
 
-Clone the project (`git clone git@github.com:woleet/woleet-backendkit.git`) or download `https://github.com/woleet/woleet-backendkit/archive/master.zip` and uncompress it.
+Clone the project (`git clone https://github.com/woleet/woleet-backendkit.git`) or download `https://github.com/woleet/woleet-backendkit/archive/master.zip` and uncompress it.
 
 ## Initialize the server
 
