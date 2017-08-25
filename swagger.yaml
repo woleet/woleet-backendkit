@@ -2,12 +2,15 @@ swagger: '2.0'
 host: localhost
 basePath: /
 info:
-  version: 1.0.0
   title: Woleet backend kit API
+  version: 1.0.0
   description: >
     The Woleet backend kit API, as exposed by Woleet backend kit's NodeJS server, allows:
      - **your backend** (and only yours) to sign some data using its bitcoin identity (as generated during backend kit installation)
      - **anyone** to verify that your backend effectively owns its claimed bitcoin address
+  contact:
+    url: 'https://www.woleet.io/'
+    email: contact@woleet.com
 schemes:
   - https
 consumes:
