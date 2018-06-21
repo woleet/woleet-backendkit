@@ -9,7 +9,7 @@ The Woleet backend kit facilitates the integration of Woleet's
 
 The Woleet backend kit is made of:
  * an initialization script allowing to generate or restore the bitcoin identity and the API token of the backend kit
- * a NodeJS server exposing the REST API of the backend kit
+ * a Node.js server exposing the REST API of the backend kit
  
 The backend kit API exposes two public endpoints that need to be accessible from outside your backend:
  * `/identity` allows to verify that your backend effectively owns its claimed bitcoin address
@@ -20,12 +20,12 @@ Additionally, the backend kit API exposes one private endpoint that need to be a
 
 ## Prerequisites
 
-To install the NodeJS server, you will need:
+To install the Node.js server, you will need:
 * a web domain (eg. mycompany.com) used to expose the public endpoints of the backend kit API
 * a valid (not self signed) TLS certificate (and its associated key) associated to the web domain
 
-NodeJS needs to be installed on your system.
-To run the NodeJS server into a Docker container, you also need to install Docker on your system. 
+Node.js needs to be installed on your system.
+To run the Node.js server into a Docker container, you also need to install Docker on your system. 
 
 ## Install the server
 
@@ -35,7 +35,7 @@ Clone the project (`git clone https://github.com/woleet/woleet-backendkit.git`) 
 
 Go to the installation directory.
 
-Choose which version of the initialization script you want to use: 2 versions are provided, initialize-docker.sh and initialize-node.sh, depending on whether you want to run the NodeJS server directly or embed it into a Docker container.
+Choose which version of the initialization script you want to use: 2 versions are provided, initialize-docker.sh and initialize-node.sh, depending on whether you want to run the Node.js server directly or embed it into a Docker container.
 
 Run the initialization script with the following parameters:
 - cert=<PATH_TO_CERTIFICATE> path to your certificate.
@@ -49,7 +49,7 @@ The initialization script will:
 - Ask you if you want to restore a private key (WIF) or generate a new one.
 - Ask you if you want to restore an API token or generate a new one.
 - Display your private key (WIF), your API token and your bitcoin address (public key).
-- Display the command line to use to run the NodeJS server.
+- Display the command line to use to run the Node.js server.
 
 **WARNING: The private key (WIF) is required to restore your bitcoin identity in case of system loss, and the API token is required to use the "/signature" endpoint.
 Be careful to write down and backup these 2 information carefully in order to restore your identity and service in case of server loss.**
