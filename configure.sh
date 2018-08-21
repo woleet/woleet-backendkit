@@ -74,11 +74,22 @@ if [ ! -z ${RESTORE_TOKEN} ]; then
     TOKEN_RESTORATION_PARAM="restoreToken=$TOKEN_RESTORATION"
 fi
 
-node generate-config.js ${SGP_PARAM} \
-    ${WIF_RESTORATION_PARAM} \
+if [ ${MODE} == "docker" ]
+then
+  docker run -it --rm \
+    --entrypoint sh \
+    woleet-backend-kit -c "node generate-config.js\
+    ${WIF_RESTORATION_PARAM}\
     ${TOKEN_RESTORATION_PARAM} \
-    domain=${URL} && \
+    && cat generated-configuration" > generated-configuration
+
+  source generated-configuration
+else
+node generate-config.js \
+    ${WIF_RESTORATION_PARAM} \
+    ${TOKEN_RESTORATION_PARAM} && \
     source generated-configuration
+fi
 
 #############################################################
 #  Since here, we are done, just showing keys to the user
