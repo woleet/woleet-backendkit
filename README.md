@@ -1,11 +1,9 @@
 # Woleet backend kit
 
-The Woleet backend kit facilitates the integration of Woleet's
- [signature anchoring](https://medium.com/@woleet/beyond-data-anchoring-bee867d9be3a)
-  functionality into your backend workflow, by providing all you need for your backend to easily:
- * manage its bitcoin identity (ie. its public bitcoin address and associated private key)
- * sign some data using its bitcoin identity
- * expose and prove to the world its bitcoin identity
+The Woleet backend kit facilitates the integration of Woleet's [signature anchoring](https://medium.com/@woleet/beyond-data-anchoring-bee867d9be3a) functionality into your corporate workflow, by providing all your backend need to easily:
+ * manage its identity and associated bitcoin address
+ * sign data using its bitcoin address
+ * expose its identity and prove the ownership of its bitcoin address
 
 The Woleet backend kit is made of:
  * an initialization script allowing to generate or restore the bitcoin identity and the API token of the backend kit
