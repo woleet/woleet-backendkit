@@ -35,12 +35,12 @@
     "bitcoinjs-message": "^1.0.1",
     "chai": "^4.0.2",
     "expect.js": "~0.3.1",
-    "mocha": "^3.4.2",
+    "mocha": "^5.2.0",
     "sinon": "1.17.3",
     "supertest": "^3.0.0"
   },
   "dependencies": {
-    "bitcore-lib": "^0.13.7",
+    "bitcore-lib": "^0.13.19",
     "bitcore-message": "^1.0.4",
     "bs58": "latest",
     "bs58check": "latest",
