@@ -76,7 +76,7 @@ fi
 
 if [ ${MODE} == "docker" ]
 then
-  docker run -it --rm \
+  docker run --rm \
     --entrypoint sh \
     woleet-backend-kit -c "node generate-config.js\
     ${WIF_RESTORATION_PARAM}\
