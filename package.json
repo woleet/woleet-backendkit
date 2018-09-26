@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/woleet/woleet-backendkit#readme",
   "devDependencies": {
-    "api-benchmark": "^0.4.2",
+    "api-benchmark": "^0.5.0",
     "@types/express": "^4.0.36",
     "bitcoinjs-message": "^1.0.1",
     "chai": "^4.0.2",
