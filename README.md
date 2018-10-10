@@ -1,5 +1,7 @@
 # Woleet backend kit
 
+> WARNING: Woleet backendkit is no longer supported and is replaced by [Woleet.ID Server](https://github.com/woleet/woleet.id-server)
+
 The Woleet backend kit facilitates the integration of Woleet's [signature anchoring](https://medium.com/@woleet/beyond-data-anchoring-bee867d9be3a) functionality into your corporate workflow, by providing all your backend need to easily:
  * manage its identity and associated bitcoin address
  * sign data using its bitcoin address
