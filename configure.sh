@@ -24,11 +24,11 @@ while [ $# -gt 0 ]; do
     key=*)
       KEY="${1#*=}";;
     cert=*)
-      CRT="${1#*=}";;
+      CERT="${1#*=}";;
     domain=*)
       URL="${1#*=}";;
     signaturePort=*)
-      SGP="${1#*=}";;
+      SIGNATURE_PORT="${1#*=}";;
     defaultPort=*)
       DEFAULT_PORT="${1#*=}";;
     --cluster)
@@ -41,7 +41,7 @@ while [ $# -gt 0 ]; do
 done
 
 need_param "domain" ${URL}
-need_param "cert" ${CRT}
+need_param "cert" ${CERT}
 need_param "key" ${KEY}
 
 #############################################################

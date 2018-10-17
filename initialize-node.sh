@@ -8,13 +8,13 @@ npm i --silent
 
 source configure.sh
 
-if [ ! -z ${SGP} ];
+if [ ! -z ${SIGNATURE_PORT} ];
 then
-    SGP_PARAM="signaturePort=${SGP}";
+    SIGNATURE_PORT_PARAM="signaturePort=${SIGNATURE_PORT}";
 fi
 
 echo node main \
-    key=${KEY} cert=${CRT} domain=${URL} \
+    key=${KEY} cert=${CERT} domain=${URL} \
     defaultPort=${DEFAULT_PORT} \
-    ${SGP_PARAM} ${CLUSTER_PARAM} \
+    ${SIGNATURE_PORT_PARAM} ${CLUSTER_PARAM} \
     restoreWIF=${restoreWIF} restoreToken=${restoreToken}
