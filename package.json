@@ -1,6 +1,6 @@
 {
   "name": "woleet-backendkit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Woleet's identity and signature server for backends",
   "main": "main.js",
   "scripts": {
