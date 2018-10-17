@@ -41,8 +41,8 @@ Run the initialization script with the following parameters:
 - cert=<PATH_TO_CERTIFICATE> path to your certificate.
 - key=<PATH_TO_CERTIFICATE_KEY> path to your certificate's key.
 - domain=<YOUR_DOMAIN> (to expose the API on "https://<YOUR_DOMAIN>/").
-- signaturePort=<SIGNATURE_PORT> (optional, default 443), set it if you want to expose the "/signature" endpoint on an other port.
-- defaultPort=<IDENTITY_PORT> (optional, default: 443), set it if you want to expose the "/identity" endpoint on an specific port.
+- signaturePort=<SIGNATURE_PORT> (optional, default 443), set it if you want to expose the "/signature" endpoint on a specific port.
+- defaultPort=<IDENTITY_PORT> (optional, default: 443), set it if you want to expose the "/identity" and "/documentation" endpoints on a specific port.
 - --cluster (optional), set it to use node [cluster](https://nodejs.org/docs/latest/api/cluster.html#cluster_cluster) mode to handle a higher load.
 
 The initialization script will:
