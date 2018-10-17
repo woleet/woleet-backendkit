@@ -11,7 +11,8 @@
     "tests": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && mocha tests --recursive",
     "swagger-tests-generate": "cd tests && ./generate-swagger-client.sh",
     "swagger-tests-server": "npm start domain=localhost key=${HOME}/ssl/selfsigned.key cert=${HOME}/ssl/selfsigned.crt defaultPort=1234 restoreToken=123456 restoreWIF=5KYZdUEo39z3FPrtuX2QbbwGnNP5zTd7yyr2SC1j299sBCnWjss",
-    "swagger-tests": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && mocha tests/swagger-generated --recursive"
+    "swagger-tests": "export NODE_TLS_REJECT_UNAUTHORIZED=0 && mocha tests/swagger-generated --recursive",
+    "postinstall": "rm -rf node_modules/bitcore-message/node_modules/bitcore-lib"
   },
   "repository": {
     "type": "git",
